@@ -1,0 +1,7 @@
+---
+# handlers file for appconf
+
+- name: restart tomcat
+  systemd:
+    name: '{{ SERVICE_NAME }}'
+    state: 'restarted'

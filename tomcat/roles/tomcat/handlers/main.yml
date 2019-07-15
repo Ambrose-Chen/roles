@@ -1,0 +1,12 @@
+---
+# handlers file for tomcat
+
+- name: daemon reload
+  systemd:
+    daemon_reload: 'yes'
+
+- name: restart tomcat
+  systemd:
+    name: '{{ SERVICE_NAME }}'
+    state: 'restarted'
+  ignore_errors: 'yes'

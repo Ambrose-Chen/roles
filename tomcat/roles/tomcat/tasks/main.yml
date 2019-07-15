@@ -1,0 +1,49 @@
+---
+# tasks file for tomcat
+
+- name:
+  user:
+    name: 'tomcat'
+
+- name: 
+  copy:
+    src: '{{ item.src }}'
+    dest: '{{ item.dest }}'
+    mode: '0775'
+    owner: 'root'
+    group: 'tomcat'
+  loop:
+    - src: './files/tomcat/bin/'
+      dest: '{{ TOMCAT_HOME }}/bin'
+    - src: './files/tomcat/lib/'
+      dest: '{{ TOMCAT_HOME }}/lib'
+    - src: './files/tomcat/temp/'
+      dest: '{{ TOMCAT_HOME }}/temp'
+    - src: './files/tomcat/webapps/'
+      dest: '{{ TOMCAT_HOME }}/webapps'
+    - src: './files/conf/'
+      dest: '{{ TOMCAT_HOME }}/conf'
+  notify: restart tomcat
+
+- name:
+  file:
+    path: '{{ item }}'
+    state: 'directory'
+    owner: 'root'
+    group: 'tomcat'
+    mode: '0775'
+  loop:
+    - '{{ TOMCAT_HOME }}'
+    - '{{ TOMCAT_HOME }}/bin'
+    - '{{ TOMCAT_HOME }}/conf'
+    - '{{ TOMCAT_HOME }}/lib'
+    - '{{ TOMCAT_HOME }}/logs'
+    - '{{ TOMCAT_HOME }}/temp'
+    - '{{ TOMCAT_HOME }}/webapps'
+    - '{{ TOMCAT_HOME }}/work'
+
+- name:
+  template:
+    src: './templates/tomcat.service.j2'
+    dest: '/usr/lib/systemd/system/{{ SERVICE_NAME }}.service'
+  notify: daemon reload

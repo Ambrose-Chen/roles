@@ -1,0 +1,18 @@
+[Unit]
+Description=Apache Tomcat Web Application Container
+After=network.target
+
+[Service]
+Type=forking
+Environment=JAVA_HOME={{ JAVA_HOME }}
+
+ExecStart={{ TOMCAT_HOME }}/bin/startup.sh
+ExecStop={{ TOMCAT_HOME }}/bin/shutdown.sh
+
+SuccessExitStatus=143
+
+User=tomcat
+Group=tomcat
+
+[Install]
+WantedBy=multi-user.target

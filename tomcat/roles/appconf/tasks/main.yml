@@ -1,0 +1,12 @@
+---
+# tasks file for appconf
+
+- name:
+  copy:
+    src: '{{ item.src }}'
+    dest: '{{ item.dest }}'
+    mode: '0775'
+    owner: 'root'
+    group: 'tomcat'
+  loop: '{{ wars }}'
+  notify: restart tomcat

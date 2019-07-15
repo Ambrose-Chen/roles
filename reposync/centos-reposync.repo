@@ -1,0 +1,69 @@
+[base6]
+name=CentOS-6 - Base - mirrors.aliyun.com
+failovermethod=priority
+baseurl=http://mirrors.aliyun.com/centos/6/os/x86_64/
+        http://mirrors.aliyuncs.com/centos/6/os/x86_64/
+        http://mirrors.cloud.aliyuncs.com/centos/6/os/x86_64/
+gpgcheck=1
+gpgkey=http://mirrors.aliyun.com/centos/RPM-GPG-KEY-CentOS-6
+ 
+[updates6]
+name=CentOS-6 - Updates - mirrors.aliyun.com
+failovermethod=priority
+baseurl=http://mirrors.aliyun.com/centos/6/updates/x86_64/
+        http://mirrors.aliyuncs.com/centos/6/updates/x86_64/
+        http://mirrors.cloud.aliyuncs.com/centos/6/updates/x86_64/
+gpgcheck=1
+gpgkey=http://mirrors.aliyun.com/centos/RPM-GPG-KEY-CentOS-6
+ 
+[extras6]
+name=CentOS-6 - Extras - mirrors.aliyun.com
+failovermethod=priority
+baseurl=http://mirrors.aliyun.com/centos/6/extras/x86_64/
+        http://mirrors.aliyuncs.com/centos/6/extras/x86_64/
+        http://mirrors.cloud.aliyuncs.com/centos/6/extras/x86_64/
+gpgcheck=1
+gpgkey=http://mirrors.aliyun.com/centos/RPM-GPG-KEY-CentOS-6
+
+[epel6]
+name=Extra Packages for Enterprise Linux 6 - x86_64
+baseurl=http://mirrors.aliyun.com/epel/6/x86_64
+failovermethod=priority
+enabled=1
+gpgcheck=0
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-6
+
+[base7]
+name=CentOS-7 - Base - mirrors.aliyun.com
+failovermethod=priority
+baseurl=http://mirrors.aliyun.com/centos/7/os/x86_64/
+        http://mirrors.aliyuncs.com/centos/7/os/x86_64/
+        http://mirrors.cloud.aliyuncs.com/centos/7/os/x86_64/
+gpgcheck=1
+gpgkey=http://mirrors.aliyun.com/centos/RPM-GPG-KEY-CentOS-7
+ 
+[updates7]
+name=CentOS-7 - Updates - mirrors.aliyun.com
+failovermethod=priority
+baseurl=http://mirrors.aliyun.com/centos/7/updates/x86_64/
+        http://mirrors.aliyuncs.com/centos/7/updates/x86_64/
+        http://mirrors.cloud.aliyuncs.com/centos/7/updates/x86_64/
+gpgcheck=1
+gpgkey=http://mirrors.aliyun.com/centos/RPM-GPG-KEY-CentOS-7
+ 
+[extras7]
+name=CentOS-7 - Extras - mirrors.aliyun.com
+failovermethod=priority
+baseurl=http://mirrors.aliyun.com/centos/7/extras/x86_64/
+        http://mirrors.aliyuncs.com/centos/7/extras/x86_64/
+        http://mirrors.cloud.aliyuncs.com/centos/7/extras/x86_64/
+gpgcheck=1
+gpgkey=http://mirrors.aliyun.com/centos/RPM-GPG-KEY-CentOS-7
+
+[epel7]
+name=Extra Packages for Enterprise Linux 7 - x86_64
+baseurl=http://mirrors.aliyun.com/epel/7/x86_64
+failovermethod=priority
+enabled=1
+gpgcheck=0
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7

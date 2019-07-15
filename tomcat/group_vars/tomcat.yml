@@ -1,0 +1,7 @@
+
+JAVA_HOME: '/opt/java'
+
+TOMCAT_HOME: '/opt/tomcat-tax'
+
+SERVICE_NAME: 'tomcat-tax'
+

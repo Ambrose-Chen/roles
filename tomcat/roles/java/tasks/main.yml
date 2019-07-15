@@ -1,0 +1,9 @@
+---
+# tasks file for java
+
+- name:
+  copy:
+    src: './files/java/'
+    dest: '{{ JAVA_HOME }}'
+    mode: '0755'
+  when: check_java |bool
