@@ -1,0 +1,45 @@
+---
+# tasks file for vminit
+
+- name:
+  file:
+    path: '{{ item }}'
+    state: 'absent'
+  loop:
+    - '/etc/yum.repos.d/CentOS-CR.repo'
+    - '/etc/yum.repos.d/CentOS-Debuginfo.repo'
+    - '/etc/yum.repos.d/CentOS-fasttrack.repo'
+    - '/etc/yum.repos.d/CentOS-Media.repo'
+    - '/etc/yum.repos.d/CentOS-Sources.repo'
+    - '/etc/yum.repos.d/CentOS-Vault.repo'
+
+- name:
+  copy:
+    src: '{{ item.src }}'
+    dest: '{{ item.dest }}'
+    mode: '0644'
+  loop:
+    - src: './files/CentOS-Base.repo'
+      dest: '/etc/yum.repos.d/CentOS-Base.repo'
+    - src: './files/epel.repo'
+      dest: '/etc/yum.repos.d/epel.repo'
+
+- name:
+  hostname:
+    name: '{{ inventory_hostname }}'
+
+- name:
+  systemd:
+    name: 'firewalld'
+    state: 'stopped'
+    enabled: 'no'
+
+- name:
+  selinux:
+    state: 'disabled'
+
+- name:
+  yum:
+    name: '{{ item }}'
+    state: 'present'
+  loop: '{{ packages }}'

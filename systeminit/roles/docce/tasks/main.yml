@@ -1,0 +1,19 @@
+---
+# tasks file for docce
+
+- name:
+  copy:
+    src: './files/docker-ce.repo'
+    dest: '/etc/yum.repos.d/docker-ce.repo'
+
+- name:
+  yum:
+    name: '{{ item }}'
+    state: 'present'
+  loop: '{{ packages }}'
+
+- name:
+  systemd:
+    name: 'docker'
+    state: 'started'
+    enabled: 'yes'

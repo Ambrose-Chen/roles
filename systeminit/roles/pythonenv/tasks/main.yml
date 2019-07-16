@@ -1,0 +1,28 @@
+---
+# tasks file for pythonenv
+
+- name:
+  yum:
+    name: '{{ item }}'
+    state: 'present'
+  loop: '{{ packages }}'
+
+- name:
+  file:
+    path: '~/.pip'
+    state: 'directory'
+
+- name:
+  copy:
+    src: '{{ item.src }}'
+    dest: '{{ item.dest }}'
+  loop:
+    - src: './files/get-pip.py'
+      dest: '/tmp/get-pip.py'
+    - src: './files/pip.conf'
+      dest: '~/.pip/pip.conf'
+
+- name:
+  shell: |
+    pip3 install -U pip
+    pip install {{ pips }}

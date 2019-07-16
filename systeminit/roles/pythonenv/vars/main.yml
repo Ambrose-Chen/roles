@@ -1,0 +1,9 @@
+---
+# vars file for pythonenv
+
+packages:
+  - 'python36'
+  - 'python36-devel'
+  - 'python36-pip'
+
+pips: 'virtualenv'

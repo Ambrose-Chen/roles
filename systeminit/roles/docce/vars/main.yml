@@ -1,0 +1,7 @@
+---
+# vars file for docce
+
+
+packages:
+  - 'docker-ce'
+  - 'docker-compose'
