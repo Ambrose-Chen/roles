@@ -1,7 +1,7 @@
 ---
 # tasks file for vminit
 
-- name:
+- name: remove default repo files
   file:
     path: '{{ item }}'
     state: 'absent'
@@ -13,32 +13,32 @@
     - '/etc/yum.repos.d/CentOS-Sources.repo'
     - '/etc/yum.repos.d/CentOS-Vault.repo'
 
-- name:
+- name: add centos repo
   copy:
     src: '{{ item.src }}'
     dest: '{{ item.dest }}'
     mode: '0644'
   loop:
-    - src: './files/CentOS-Base.repo'
+    - src: 'CentOS-Base.repo'
       dest: '/etc/yum.repos.d/CentOS-Base.repo'
-    - src: './files/epel.repo'
+    - src: 'epel.repo'
       dest: '/etc/yum.repos.d/epel.repo'
 
-- name:
+- name: update hostname at inventory hostname
   hostname:
     name: '{{ inventory_hostname }}'
 
-- name:
+- name: disable and stop firewalld
   systemd:
     name: 'firewalld'
     state: 'stopped'
     enabled: 'no'
 
-- name:
+- name: disable and stop selinux
   selinux:
     state: 'disabled'
 
-- name:
+- name: install some packages you need
   yum:
     name: '{{ item }}'
     state: 'present'

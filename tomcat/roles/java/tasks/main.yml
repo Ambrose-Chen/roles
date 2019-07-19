@@ -1,9 +1,9 @@
 ---
 # tasks file for java
 
-- name:
+- name: copy java directory to dest_path
   copy:
-    src: './files/java/'
+    src: 'java/'
     dest: '{{ JAVA_HOME }}'
     mode: '0755'
   when: check_java |bool

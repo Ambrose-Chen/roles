@@ -1,28 +1,26 @@
 ---
 # tasks file for pythonenv
 
-- name:
+- name: install pip
   yum:
     name: '{{ item }}'
     state: 'present'
   loop: '{{ packages }}'
 
-- name:
+- name: create pip conf directory
   file:
     path: '~/.pip'
     state: 'directory'
 
-- name:
+- name: add aliyun pypi
   copy:
     src: '{{ item.src }}'
     dest: '{{ item.dest }}'
   loop:
-    - src: './files/get-pip.py'
-      dest: '/tmp/get-pip.py'
-    - src: './files/pip.conf'
+    - src: 'pip.conf'
       dest: '~/.pip/pip.conf'
 
-- name:
+- name: install python packages
   shell: |
     pip3 install -U pip
     pip install {{ pips }}

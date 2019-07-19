@@ -2,5 +2,5 @@
   gather_facts: no
   roles:
     - role: vminit
-    #- role: docce
+    - role: docce
     - role: pythonenv

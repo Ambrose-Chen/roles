@@ -1,11 +1,11 @@
 ---
 # tasks file for tomcat
 
-- name:
+- name: add tomcat user
   user:
     name: 'tomcat'
 
-- name: 
+- name: copy tomcat to dest_path
   copy:
     src: '{{ item.src }}'
     dest: '{{ item.dest }}'
@@ -13,19 +13,19 @@
     owner: 'root'
     group: 'tomcat'
   loop:
-    - src: './files/tomcat/bin/'
+    - src: 'tomcat/bin/'
       dest: '{{ TOMCAT_HOME }}/bin'
-    - src: './files/tomcat/lib/'
+    - src: 'tomcat/lib/'
       dest: '{{ TOMCAT_HOME }}/lib'
-    - src: './files/tomcat/temp/'
+    - src: 'tomcat/temp/'
       dest: '{{ TOMCAT_HOME }}/temp'
-    - src: './files/tomcat/webapps/'
+    - src: 'tomcat/webapps/'
       dest: '{{ TOMCAT_HOME }}/webapps'
-    - src: './files/conf/'
+    - src: 'conf/'
       dest: '{{ TOMCAT_HOME }}/conf'
   notify: restart tomcat
 
-- name:
+- name: make sure tomcat default directory is created
   file:
     path: '{{ item }}'
     state: 'directory'
@@ -42,8 +42,8 @@
     - '{{ TOMCAT_HOME }}/webapps'
     - '{{ TOMCAT_HOME }}/work'
 
-- name:
+- name: add tomcat.service
   template:
-    src: './templates/tomcat.service.j2'
+    src: 'tomcat.service.j2'
     dest: '/usr/lib/systemd/system/{{ SERVICE_NAME }}.service'
   notify: daemon reload

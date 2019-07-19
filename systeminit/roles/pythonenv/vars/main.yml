@@ -6,4 +6,4 @@ packages:
   - 'python36-devel'
   - 'python36-pip'
 
-pips: 'virtualenv'
+pips: 'django pandas virtualenv'
