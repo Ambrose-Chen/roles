@@ -1,0 +1,48 @@
+---
+# tasks file for repo
+
+- name: copy yum repo
+  copy:
+    src: '{{ item }}.repo'
+    dest: '/etc/yum.repos.d/{{ item }}.repo'
+  loop: '{{ repo_file }}'
+
+- name: update cache
+  yum:
+    update_cache: 'yes'
+    state: 'latest'
+
+- name: install package
+  package:
+    name: '{{ item }}'
+    state: present
+  loop:
+    - "createrepo"
+    - "httpd"
+    - "yum-utils"
+
+- name: start httpd
+  systemd:
+    name: 'httpd'
+    state: 'started'
+    enabled: 'yes'
+
+- name: check dir
+  file:
+    path: '{{ item }}'
+    state: "directory"
+  loop:
+    - "/data/centos/6"
+    - "/data/centos/7"
+
+- name: link /data/centos to /var/www/html/centos
+  file:
+    path: "/var/www/html/centos"
+    state: "link"
+    src: "/data/centos"
+
+- name: reposync
+  shell: |
+    reposync {% for name in el6 %} -r {{ name }} {% endfor %} -p /data/centos/6/;
+    reposync {% for name in el7 %} -r {{ name }} {% endfor %} -p /data/centos/7/;
+     

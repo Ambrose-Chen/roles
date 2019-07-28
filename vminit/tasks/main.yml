@@ -15,14 +15,11 @@
 
 - name: add centos repo
   copy:
-    src: '{{ item.src }}'
-    dest: '{{ item.dest }}'
+    src: '{{ item }}.repo'
+    dest: '/etc/yum.repos.d/{{ item }}.repo'
     mode: '0644'
-  loop:
-    - src: 'CentOS-Base.repo'
-      dest: '/etc/yum.repos.d/CentOS-Base.repo'
-    - src: 'epel.repo'
-      dest: '/etc/yum.repos.d/epel.repo'
+  loop: '{{ repo_file }}'
+  when: repo_file is defined
 
 - name: update hostname at inventory hostname
   hostname:

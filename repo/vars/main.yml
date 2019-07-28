@@ -1,0 +1,39 @@
+
+
+repo_file:
+  - 'centos-reposync'
+  - 'mysql57-community-reposync'
+  - 'pgdg-redhat-all'
+  - 'rabbitmq-server-reposync'
+
+el6:
+  - 'base6'
+  - 'epel6'
+  - 'extras6'
+  - 'updates6'
+  - 'mysql57-community6'
+  - 'mysql-tools-community6'
+  - 'mysql-connectors-community6'
+  - 'bintray-rabbitmq-server366'
+  - 'bintray-rabbitmq-server376'
+  - 'pgdg946'
+  - 'pgdg956'
+  - 'pgdg966'
+  - 'pgdg106'
+  - 'pgdg116'
+
+el7:
+  - 'base7'
+  - 'epel7'
+  - 'extras7'
+  - 'updates7'
+  - 'mysql57-community7'
+  - 'mysql-tools-community7'
+  - 'mysql-connectors-community7'
+  - 'bintray-rabbitmq-server367'
+  - 'bintray-rabbitmq-server377'
+  - 'pgdg947'
+  - 'pgdg957'
+  - 'pgdg967'
+  - 'pgdg107'
+  - 'pgdg117'

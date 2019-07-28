@@ -3,5 +3,6 @@
 
 packages:
   - 'bash-completion'
+  - 'tree'
   - 'vim'
   - 'wget'

@@ -1,5 +1,0 @@
-- hosts: tomcat
-  roles:
-    - role: java
-    - role: tomcat
-    - role: appconf
