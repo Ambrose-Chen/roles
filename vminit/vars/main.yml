@@ -1,8 +1,8 @@
 ---
 # vars file for vminit
 
-packages:
-  - 'bash-completion'
-  - 'tree'
-  - 'vim'
-  - 'wget'
+#packages:
+#  - 'bash-completion'
+#  - 'tree'
+#  - 'vim'
+#  - 'wget'

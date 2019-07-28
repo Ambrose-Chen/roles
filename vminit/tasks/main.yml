@@ -6,6 +6,7 @@
     path: '{{ item }}'
     state: 'absent'
   loop:
+    - '/etc/yum.repos.d/CentOS-Base.repo'
     - '/etc/yum.repos.d/CentOS-CR.repo'
     - '/etc/yum.repos.d/CentOS-Debuginfo.repo'
     - '/etc/yum.repos.d/CentOS-fasttrack.repo'
@@ -19,7 +20,7 @@
     dest: '/etc/yum.repos.d/{{ item }}.repo'
     mode: '0644'
   loop: '{{ repo_file }}'
-  when: repo_file is defined
+  when: vminit.repo_file is defined
 
 - name: update hostname at inventory hostname
   hostname:
@@ -40,3 +41,4 @@
     name: '{{ item }}'
     state: 'present'
   loop: '{{ packages }}'
+  when: packages is defined
