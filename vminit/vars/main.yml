@@ -1,8 +1,11 @@
 ---
 # vars file for vminit
-
-#packages:
-#  - 'bash-completion'
-#  - 'tree'
-#  - 'vim'
-#  - 'wget'
+vminit:
+        #  repo_file:
+        #    - 'CentOS-Base.repo'
+        #    - 'epel.repo'
+        #  packages:
+        #    - 'bash-completion'
+        #    - 'tree'
+        #    - 'vim'
+        #    - 'wget'

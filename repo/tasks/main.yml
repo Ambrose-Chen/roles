@@ -5,12 +5,7 @@
   copy:
     src: '{{ item }}.repo'
     dest: '/etc/yum.repos.d/{{ item }}.repo'
-  loop: '{{ repo_file }}'
-
-- name: update cache
-  yum:
-    update_cache: 'yes'
-    state: 'latest'
+  loop: '{{ repo.repo_file }}'
 
 - name: install package
   package:
@@ -43,6 +38,6 @@
 
 - name: reposync
   shell: |
-    reposync {% for name in el6 %} -r {{ name }} {% endfor %} -p /data/centos/6/;
-    reposync {% for name in el7 %} -r {{ name }} {% endfor %} -p /data/centos/7/;
+    reposync {% for name in repo.el6 %} -r {{ name }} {% endfor %} -p /data/centos/6/;
+    reposync {% for name in repo.el7 %} -r {{ name }} {% endfor %} -p /data/centos/7/;
      

@@ -19,7 +19,7 @@
     src: '{{ item }}.repo'
     dest: '/etc/yum.repos.d/{{ item }}.repo'
     mode: '0644'
-  loop: '{{ repo_file }}'
+  loop: '{{ vminit.repo_file }}'
   when: vminit.repo_file is defined
 
 - name: update hostname at inventory hostname
@@ -40,5 +40,5 @@
   yum:
     name: '{{ item }}'
     state: 'present'
-  loop: '{{ packages }}'
-  when: packages is defined
+  loop: '{{ vminit.packages }}'
+  when: vminit.packages is defined
