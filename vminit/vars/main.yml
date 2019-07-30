@@ -1,11 +1,18 @@
 ---
 # vars file for vminit
+#
+#
+# 172.16.121.5
 vminit:
-        #  repo_file:
-        #    - 'CentOS-Base.repo'
-        #    - 'epel.repo'
-        #  packages:
-        #    - 'bash-completion'
-        #    - 'tree'
-        #    - 'vim'
-        #    - 'wget'
+  repo_file:
+    - 'base'
+    - 'epel'
+    - 'mysql57-community'
+    - 'rabbitmq-server36'
+  packages:
+    - 'bash-completion'
+    - 'gcc'
+    - 'mysql-community-server'
+    - 'tree'
+    - 'vim'
+    - 'wget'

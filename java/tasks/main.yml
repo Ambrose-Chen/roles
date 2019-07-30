@@ -4,6 +4,12 @@
 - name: copy java directory to dest_path
   copy:
     src: 'java/'
-    dest: '{{ JAVA_HOME }}'
+    dest: '{{ java.java_home }}'
     mode: '0755'
-  when: check_java |bool
+  when: java.check_java |bool
+
+- name:
+  lineinfile:
+    file: '/etc/bashrc'
+    line: 'export PATH=$PATH:{{ java.java_home }}'
+    state: 'present'

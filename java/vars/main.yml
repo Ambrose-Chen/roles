@@ -1,4 +1,9 @@
 ---
 # vars file for java
-
-check_java: yes
+#
+#
+#
+# 172.16.121.5
+java:
+  java_home: /opt/java/
+  check_java: yes
