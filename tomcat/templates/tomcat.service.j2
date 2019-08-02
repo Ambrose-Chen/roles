@@ -4,10 +4,10 @@ After=network.target
 
 [Service]
 Type=forking
-Environment=JAVA_HOME={{ JAVA_HOME }}
+Environment=JAVA_HOME={{ tomcat.java_home }}
 
-ExecStart={{ TOMCAT_HOME }}/bin/startup.sh
-ExecStop={{ TOMCAT_HOME }}/bin/shutdown.sh
+ExecStart={{ tomcat.tomcat_home }}/bin/startup.sh
+ExecStop={{ tomcat.tomcat_home }}/bin/shutdown.sh
 
 SuccessExitStatus=143
 

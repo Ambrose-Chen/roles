@@ -1,2 +1,9 @@
 ---
 # defaults file for pythonenv
+
+pythonenv:
+  packages:
+    - 'python36'
+    - 'python36-devel'
+    - 'python36-pip'
+  pips: 'django pandas virtualenv'

@@ -1,2 +1,9 @@
 ---
 # defaults file for docce
+
+docce:
+  repo_file:
+    - 'docker-ce'
+  packages:
+    - 'docker-ce'
+    - 'docker-compose'

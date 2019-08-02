@@ -3,8 +3,8 @@
 
 - name: copy war to webapps and restart tomcat
   copy:
-    src: '{{ item.src }}'
-    dest: '{{ item.dest }}'
+    src: '{{ item }}.war'
+    dest: '{{ tomcat_home }}/webapps/{{ item }}.war'
     mode: '0775'
     owner: 'root'
     group: 'tomcat'

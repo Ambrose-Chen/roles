@@ -3,16 +3,37 @@
 #
 #
 # 172.16.121.5
+#vminit:
+#  repo_file:
+#    - 'base'
+#    - 'epel'
+#    - 'mysql57-community'
+#    - 'rabbitmq-server36'
+#  packages:
+#    - 'bash-completion'
+#    - 'gcc'
+#    - 'mysql-community-server'
+#    - 'tree'
+#    - 'vim'
+#    - 'wget'
+#
+# cka.name
 vminit:
   repo_file:
     - 'base'
     - 'epel'
-    - 'mysql57-community'
-    - 'rabbitmq-server36'
   packages:
     - 'bash-completion'
+    - 'dmidecode'
     - 'gcc'
-    - 'mysql-community-server'
+    - 'iotop'
+    - 'openssl-devel'
+    - 'sos'
+    - 'strace'
+    - 'sysstat'
     - 'tree'
+    - 'tuned'
     - 'vim'
+    - 'valgrind'
     - 'wget'
+    - 'zlib-devel'

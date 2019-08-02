@@ -1,2 +1,8 @@
 ---
 # vars file for tomcat
+#
+# cka.name
+tomcat:
+  java_home: '/opt/java'
+  tomcat_home: '/opt/tomcat'
+  service_name: 'tomcat'

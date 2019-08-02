@@ -3,14 +3,15 @@
 
 - name: add docker-ce repo file
   copy:
-    src: 'docker-ce.repo'
-    dest: '/etc/yum.repos.d/docker-ce.repo'
+    src: '{{ item }}.repo'
+    dest: '/etc/yum.repos.d/{{ item }}.repo'
+  loop: '{{ docce.repo_file }}'
 
 - name: install docker-ce docker-compose
   yum:
     name: '{{ item }}'
     state: 'present'
-  loop: '{{ packages }}'
+  loop: '{{ docce.packages }}'
 
 - name: enable and start docker service
   systemd:

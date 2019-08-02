@@ -10,6 +10,6 @@
 
 - name:
   lineinfile:
-    file: '/etc/bashrc'
+    path: '/etc/bashrc'
     line: 'export PATH=$PATH:{{ java.java_home }}'
-    state: 'present'
+    create: 'yes'

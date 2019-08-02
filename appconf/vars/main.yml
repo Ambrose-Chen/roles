@@ -1,6 +1,7 @@
 ---
 # vars file for appconf
 
-wars:
-  - src: 'activiti-app.war'
-    dest: '{{ TOMCAT_HOME }}/webapps/activiti-app.war'
+webapps:
+  wars:
+    - 'activiti-app'
+  tomcat_home: '/opt/tomcat/'

@@ -5,7 +5,7 @@
   yum:
     name: '{{ item }}'
     state: 'present'
-  loop: '{{ packages }}'
+  loop: '{{ pythonenv.packages }}'
 
 - name: create pip conf directory
   file:
@@ -23,4 +23,4 @@
 - name: install python packages
   shell: |
     pip3 install -U pip
-    pip install {{ pips }}
+    pip install {{ pythonenv.pips }}

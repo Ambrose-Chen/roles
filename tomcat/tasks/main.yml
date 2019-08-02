@@ -14,15 +14,15 @@
     group: 'tomcat'
   loop:
     - src: 'tomcat/bin/'
-      dest: '{{ TOMCAT_HOME }}/bin'
+      dest: '{{ tomcat.tomcat_home }}/bin'
     - src: 'tomcat/lib/'
-      dest: '{{ TOMCAT_HOME }}/lib'
+      dest: '{{ tomcat.tomcat_home }}/lib'
     - src: 'tomcat/temp/'
-      dest: '{{ TOMCAT_HOME }}/temp'
+      dest: '{{ tomcat.tomcat_home }}/temp'
     - src: 'tomcat/webapps/'
-      dest: '{{ TOMCAT_HOME }}/webapps'
+      dest: '{{ tomcat.tomcat_home }}/webapps'
     - src: 'conf/'
-      dest: '{{ TOMCAT_HOME }}/conf'
+      dest: '{{ tomcat.tomcat_home }}/conf'
   notify: restart tomcat
 
 - name: make sure tomcat default directory is created
@@ -33,17 +33,22 @@
     group: 'tomcat'
     mode: '0775'
   loop:
-    - '{{ TOMCAT_HOME }}'
-    - '{{ TOMCAT_HOME }}/bin'
-    - '{{ TOMCAT_HOME }}/conf'
-    - '{{ TOMCAT_HOME }}/lib'
-    - '{{ TOMCAT_HOME }}/logs'
-    - '{{ TOMCAT_HOME }}/temp'
-    - '{{ TOMCAT_HOME }}/webapps'
-    - '{{ TOMCAT_HOME }}/work'
+    - '{{ tomcat.tomcat_home }}'
+    - '{{ tomcat.tomcat_home }}/bin'
+    - '{{ tomcat.tomcat_home }}/conf'
+    - '{{ tomcat.tomcat_home }}/lib'
+    - '{{ tomcat.tomcat_home }}/logs'
+    - '{{ tomcat.tomcat_home }}/temp'
+    - '{{ tomcat.tomcat_home }}/webapps'
+    - '{{ tomcat.tomcat_home }}/work'
 
 - name: add tomcat.service
   template:
     src: 'tomcat.service.j2'
-    dest: '/usr/lib/systemd/system/{{ SERVICE_NAME }}.service'
+    dest: '/usr/lib/systemd/system/{{ tomcat.service_name }}.service'
   notify: daemon reload
+
+- name: enabled tomcat.service
+  systemd:
+    name: '{{ tomcat.service_name }}'
+    enabled: 'yes'
