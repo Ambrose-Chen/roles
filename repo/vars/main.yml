@@ -25,8 +25,11 @@ repo:
   
   el7:
     - 'base7'
+    - 'cloud-o-s7'
+    - 'dotnet7'
     - 'epel7'
     - 'extras7'
+    - 'storage-c-n7'
     - 'updates7'
     - 'mysql57-community7'
     - 'mysql-tools-community7'
