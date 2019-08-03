@@ -36,8 +36,13 @@
     state: "link"
     src: "/data/centos"
 
+- name: cp createrepo script to /data/centos
+  copy:
+    src: 'createrepo'
+    dest: '/data/centos/createrepo'
+
 - name: reposync
   shell: |
     reposync {% for name in repo.el6 %} -r {{ name }} {% endfor %} -p /data/centos/6/;
     reposync {% for name in repo.el7 %} -r {{ name }} {% endfor %} -p /data/centos/7/;
-     
+    bash /data/centos/createrepo;

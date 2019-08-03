@@ -1,0 +1,30 @@
+#!/bin/bash
+
+el7='/data/centos/7/'
+el6='/data/centos/6/'
+el7repo='/data/centos/centos-7.repo'
+el6repo='/data/centos/centos-6.repo'
+urlroot="http://`ip a | grep ens33 | grep inet | awk '{print $2}' | awk -F'/' '{print $1}'`/centos"
+
+> $el7repo
+> $el6repo
+
+function create_repodata()
+{
+	for i in `ls ${1}`
+	do
+        	createrepo --update ${1}${i}
+        	cat >> ${2} <<EOF
+[${i}]
+name=${i}
+baseurl=${3}/${i}
+enabled=1
+gpgcheck=0
+EOF
+
+	done
+}
+
+create_repodata ${el7} ${el7repo} ${urlroot}/7
+create_repodata ${el6} ${el6repo} ${urlroot}/6
+
