@@ -1,15 +1,13 @@
 ---
 # tasks file for java
 
-- name: copy java directory to dest_path
-  copy:
-    src: 'java/'
-    dest: '{{ java.java_home }}'
-    mode: '0755'
-  when: java.check_java |bool
+- name: Extract {{ java.src }} into {{ java.dest }}
+  unarchive:
+    src: '{{ java.src }}'
+    dest: '{{ java.dest }}'
 
-- name:
+- name: add {{ java.dest }}{{ java.dirname }}/bin into $PATH
   lineinfile:
     path: '/etc/bashrc'
-    line: 'export PATH=$PATH:{{ java.java_home }}'
+    line: 'export PATH=$PATH:{{ java.dest }}{{ java.dirname }}/bin'
     create: 'yes'

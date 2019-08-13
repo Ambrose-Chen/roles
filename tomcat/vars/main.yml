@@ -3,6 +3,6 @@
 #
 # cka.name
 tomcat:
-  java_home: '/opt/java'
+  java_home: '/opt/jdk1.8.0_211'
   tomcat_home: '/opt/tomcat'
   service_name: 'tomcat'

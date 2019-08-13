@@ -10,5 +10,6 @@
 
 # cka.name
 java:
-  java_home: /opt/java/
-  check_java: yes
+  dirname: jdk1.8.0_211
+  src: jdk-8u211-linux-x64.tar.gz
+  dest: /opt/

@@ -1,0 +1,7 @@
+---
+# defaults file for git
+
+git:
+  dirname: 'git-2.22.0'
+  src: 'git-2.22.0.tar.gz'
+  dest: '/opt/'

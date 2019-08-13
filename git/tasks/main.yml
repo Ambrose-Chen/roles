@@ -1,0 +1,20 @@
+---
+# tasks file for git
+
+- name: git install
+  unarchive:
+    src: '{{ git.src }}'
+    dest: '{{ git.dest }}'
+
+- name: build 
+  shell: |
+    cd {{ git.dest }}{{ git.dirname }};
+    ./configure;
+    make;
+    make install;
+
+- name: source git completion
+  lineinfile:
+    path: '/etc/bashrc'
+    line: '. {{ git.dest }}{{ git.dirname }}/contrib/completion/git-completion.bash'
+    state: 'present'

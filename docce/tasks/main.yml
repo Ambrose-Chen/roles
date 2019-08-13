@@ -2,16 +2,14 @@
 # tasks file for docce
 
 - name: add docker-ce repo file
-  copy:
-    src: '{{ item }}.repo'
-    dest: '/etc/yum.repos.d/{{ item }}.repo'
-  loop: '{{ docce.repo_file }}'
+  get_url:
+    url: 'https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo'
+    dest: '/etc/yum.repos.d/docker-ce.repo'
 
-- name: install docker-ce docker-compose
+- name: install docker-ce
   yum:
-    name: '{{ item }}'
-    state: 'present'
-  loop: '{{ docce.packages }}'
+    name: 'docker-ce'
+    state: 'latest'
 
 - name: enable and start docker service
   systemd:
