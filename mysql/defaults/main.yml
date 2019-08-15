@@ -1,0 +1,13 @@
+---
+# defaults file for mysql
+
+
+mysql:
+  repo_file:
+    - 'mysql-community'
+    - 'mysql-community-source'
+  repoid: 'mysql80-community'
+  repo_rpm:
+    - 'mysql-community-server'
+  remote: no
+  password: 'root@cka.cloud'

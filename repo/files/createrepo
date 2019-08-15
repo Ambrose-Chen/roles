@@ -18,7 +18,7 @@ function create_repodata()
 [${i}]
 name=${i}
 baseurl=${3}/${i}
-enabled=1
+enabled=0
 gpgcheck=0
 EOF
 

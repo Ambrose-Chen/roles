@@ -1,0 +1,33 @@
+---
+# tasks file for mysql
+
+- debug:
+    msg: '{{ mysql }}'
+
+- copy:
+    src: '{{ item }}.repo'
+    dest: '/etc/yum.repos.d/{{ item }}.repo'
+  loop: '{{ mysql.repo_file }}'
+
+- yum:
+    name: '{{ item }}'
+    state: 'latest'
+    enablerepo: '{{ mysql.repoid }}'
+  loop: '{{ mysql.repo_rpm }}'
+
+- systemd:
+    name: 'mysqld'
+    state: 'started'
+    enabled: yes
+
+- template:
+    src: 'mysql80.sh.j2'
+    dest: '/tmp/mysql80.sh'
+
+- shell: |
+    bash /tmp/mysql80.sh
+  register: passwd
+
+- debug:
+    msg: '{{ passwd }}'
+

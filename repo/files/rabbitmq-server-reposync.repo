@@ -3,26 +3,26 @@ name=bintray-rabbitmq-rpm
 baseurl=https://dl.bintray.com/rabbitmq/rpm/rabbitmq-server/v3.6.x/el/6/
 gpgcheck=0
 repo_gpgcheck=0
-enabled=1
+enabled=0
 
 [bintray-rabbitmq-server367]
 name=bintray-rabbitmq-rpm
 baseurl=https://dl.bintray.com/rabbitmq/rpm/rabbitmq-server/v3.6.x/el/7/
 gpgcheck=0
 repo_gpgcheck=0
-enabled=1
+enabled=0
 
 [bintray-rabbitmq-server376]
 name=bintray-rabbitmq-rpm
 baseurl=https://dl.bintray.com/rabbitmq/rpm/rabbitmq-server/v3.7.x/el/6/
 gpgcheck=0
 repo_gpgcheck=0
-enabled=1
+enabled=0
 
 [bintray-rabbitmq-server377]
 name=bintray-rabbitmq-rpm
 baseurl=https://dl.bintray.com/rabbitmq/rpm/rabbitmq-server/v3.7.x/el/7/
 gpgcheck=0
 repo_gpgcheck=0
-enabled=1
+enabled=0
 

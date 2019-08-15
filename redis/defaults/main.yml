@@ -1,0 +1,6 @@
+---
+# defaults file for redis
+
+redis:
+  dest: '/opt'
+  passwd: 'redis'

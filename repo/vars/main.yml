@@ -4,7 +4,7 @@ repo:
   repo_file:
     - 'centos-reposync'
     - 'mysql57-community-reposync'
-    - 'pgdg-redhat-all'
+    - 'pgdg-redhat-all-reposync'
     - 'rabbitmq-server-reposync'
   
   el6:

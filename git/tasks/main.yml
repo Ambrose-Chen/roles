@@ -9,7 +9,7 @@
 - name: build 
   shell: |
     cd {{ git.dest }}{{ git.dirname }};
-    ./configure;
+    ./configure --with-curl;
     make;
     make install;
 

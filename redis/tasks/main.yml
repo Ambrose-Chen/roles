@@ -1,0 +1,52 @@
+---
+# tasks file for redis
+
+- get_url:
+    url: 'http://download.redis.io/redis-stable.tar.gz'
+    dest: '{{ redis.dest }}/redis-stable.tar.gz'
+
+- unarchive:
+    src: '{{ redis.dest }}/redis-stable.tar.gz'
+    dest: '{{ redis.dest }}'
+    remote_src: yes
+
+- shell: |
+    cd {{ redis.dest }}/redis-stable;
+    make;
+    make install;
+  register: make_result
+
+- debug:
+    msg: '{{ make_result }}'
+
+- file:
+    path: '{{ item }}'
+    state: 'directory'
+  loop:
+    - '/etc/redis'
+    - '/var/lib/redis'
+
+- copy:
+    src: '{{ redis.dest }}/redis-stable/redis.conf'
+    dest: '/etc/redis/6379.conf'
+    remote_src: yes
+
+- replace:
+    path: '/etc/redis/6379.conf'
+    regexp: '^# requirepass .*'
+    replace: 'requirepass {{ redis.passwd }}'
+
+- replace:
+    path: '/etc/redis/6379.conf'
+    regexp: 'daemonize.*'
+    replace: 'daemonize yes'
+
+- replace:
+    path: '/etc/redis/6379.conf'
+    regexp: '^dir.*'
+    replace: 'dir /var/lib/redis'
+
+- lineinfile:
+    path: '/etc/bashrc'
+    line: 'alias redis-server="redis-server /etc/redis/6379.conf"'
+    create: yes
