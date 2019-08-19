@@ -11,3 +11,9 @@
     path: '/etc/bashrc'
     line: 'export PATH=$PATH:{{ java.dest }}{{ java.dirname }}/bin'
     create: 'yes'
+
+- name: add JAVA_HOME={{ java.dest }}{{ java.dirname }}
+  lineinfile:
+    path: '/etc/bashrc'
+    line: 'export JAVA_HOME={{ java.dest }}{{ java.dirname }}'
+    create: 'yes'
