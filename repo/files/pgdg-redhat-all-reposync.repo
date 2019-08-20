@@ -28,13 +28,6 @@ enabled=0
 gpgcheck=0
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
 
-[pgdg946]
-name=PostgreSQL 9.4 6 - x86_64
-baseurl=https://download.postgresql.org/pub/repos/yum/9.4/redhat/rhel-6-x86_64
-enabled=0
-gpgcheck=0
-gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
-
 [pgdg117]
 name=PostgreSQL 11 7 - x86_64
 baseurl=https://download.postgresql.org/pub/repos/yum/11/redhat/rhel-7-x86_64
@@ -59,13 +52,6 @@ gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
 [pgdg957]
 name=PostgreSQL 9.5 7 - x86_64
 baseurl=https://download.postgresql.org/pub/repos/yum/9.5/redhat/rhel-7-x86_64
-enabled=0
-gpgcheck=0
-gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
-
-[pgdg947]
-name=PostgreSQL 9.4 7 - x86_64
-baseurl=https://download.postgresql.org/pub/repos/yum/9.4/redhat/rhel-7-x86_64
 enabled=0
 gpgcheck=0
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
