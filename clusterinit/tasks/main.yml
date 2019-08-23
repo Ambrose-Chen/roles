@@ -1,0 +1,19 @@
+---
+# tasks file for clusterinit
+
+- copy:
+    src: '{{ item.src }}'
+    dest: '{{ item.dest }}'
+    mode: '0600'
+  loop: '{{ clusterinit.file }}'
+
+- template:
+    src: '{{ item.src }}'
+    dest: '{{ item.dest }}'
+    mode: '0600'
+  loop: '{{ clusterinit.temp }}'
+
+- lineinfile:
+    path: '~/.ssh/authorized_keys'
+    line: '{{ clusterinit.passwd_key }}'
+    state: 'present'

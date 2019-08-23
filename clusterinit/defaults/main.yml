@@ -1,0 +1,21 @@
+---
+# defaults file for clusterinit
+
+
+clusterinit:
+  file:
+    - src: 'id_rsa'
+      dest: '~/.ssh/id_rsa'
+    - src: 'id_rsa.pub'
+      dest: '~/.ssh/id_rsa.pub'
+    - src: 'ssh_host_ecdsa_key'
+      dest: '/etc/ssh/ssh_host_ecdsa_key'
+    - src: 'ssh_host_ecdsa_key.pub'
+      dest: '/etc/ssh/ssh_host_ecdsa_key.pub'
+  temp:
+    - src: 'hosts.j2'
+      dest: '/etc/hosts'
+    - src: 'known_hosts.j2'
+      dest: '~/.ssh/known_hosts'
+  server_key: '{{ lookup("file","../files/ssh_host_ecdsa_key.pub") }}'
+  passwd_key: '{{ lookup("file","../files/id_rsa.pub") }}'

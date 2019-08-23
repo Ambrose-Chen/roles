@@ -21,11 +21,11 @@
     enabled: yes
 
 - template:
-    src: 'mysql80.sh.j2'
-    dest: '/tmp/mysql80.sh'
+    src: 'mysql.sh.j2'
+    dest: '/tmp/mysql.sh'
 
 - shell: |
-    bash /tmp/mysql80.sh
+    bash /tmp/mysql.sh
   register: passwd
 
 - debug:

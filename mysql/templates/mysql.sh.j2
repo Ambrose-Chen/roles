@@ -1,9 +1,20 @@
 #!/bin/bash
 
-passwd=`cat /var/log/mysqld.log | grep password | awk '{print $NF}'`
+passwd=`cat /var/log/mysqld.log | grep -w 'temporary password' | awk '{print $NF}'`
 mysql -uroot -p${passwd} --connect-expired-password <<EOF
+
+{% if mysql.version == 8 %}
     set global validate_password.policy=LOW;
+    set global validate_password.length=0;
+{% endif %}
+
+{% if mysql.version == 5 %}
+    set global validate_password_policy=LOW;
+    set global validate_password_length=0;
+{% endif %}
+
     alter user 'root'@'localhost' identified by '{{ mysql.password }}';
+
 {% if mysql.remote %}
     create user 'root'@'%' identified by '{{ mysql.password }}';
     grant all privileges on *.* to 'root'@'%';
