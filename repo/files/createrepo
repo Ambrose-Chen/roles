@@ -9,16 +9,32 @@ urlroot="http://`ip a | grep ens33 | grep inet | awk '{print $2}' | awk -F'/' '{
 > $el7repo
 > $el6repo
 
+function set_enabled()
+{
+	repoids=("base" "extras" "updates" "epel")
+	for n in ${repoids[*]}
+	do
+		if [[ ${1} =~ $n ]];then
+			is_enabled=1
+			break
+		else
+			is_enabled=0
+		fi
+	done
+}
+
 function create_repodata()
 {
+
 	for i in `ls ${1}`
 	do
         	createrepo --update ${1}${i}
+		set_enabled $i
         	cat >> ${2} <<EOF
 [${i}]
 name=${i}
 baseurl=${3}/${i}
-enabled=0
+enabled=$is_enabled
 gpgcheck=0
 EOF
 
