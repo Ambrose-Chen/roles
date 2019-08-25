@@ -22,6 +22,13 @@
   loop: '{{ vminit.repo_file }}'
   when: vminit.repo_file is defined
 
+- name: get centos repo
+  get_url:
+    url: '{{ item.url }}'
+    dest: '/etc/yum.repos.d/{{ item.name }}.repo'
+  loop: '{{ vminit.repo_url }}'
+  when: vminit.repo_url is defined
+
 - name: update hostname at inventory hostname
   hostname:
     name: '{{ inventory_hostname }}'
@@ -35,6 +42,13 @@
 - name: disable and stop selinux
   selinux:
     state: 'disabled'
+
+- name: upgrade all
+  yum:
+    name: '*'
+    state: 'latest'
+    update_only: 'yes'
+  when: vminit.upgrade is defined and vminit.upgrade |bool
 
 - name: install some packages you need
   yum:

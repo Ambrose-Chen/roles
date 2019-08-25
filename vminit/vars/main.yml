@@ -19,9 +19,15 @@
 #
 # cka.name
 vminit:
-  repo_file:
-    - 'base'
-    - 'epel'
+#  repo_file:
+#    - 'base'
+#    - 'epel'
+  repo_url:
+    - url: 'http://192.168.110.143/centos/centos-7.repo'
+      name: 'centos-7'
+
+  upgrade: yes
+
   packages:
     - 'bash-completion'
     - 'dmidecode'

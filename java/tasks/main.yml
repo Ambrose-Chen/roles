@@ -5,6 +5,22 @@
   unarchive:
     src: '{{ java.src }}'
     dest: '{{ java.dest }}'
+  when: java.src is defined
+
+- block:
+    
+    - name: get_url {{ java.repo_url }} into {{ java.dest }}
+      get_url:
+        url: '{{ java.repo_url }}'
+        dest: '{{ java.dest }}/{{ java.name }}'
+
+    - name: Extract {{ java.name }}
+      unarchive:
+        src: '{{ java.dest }}/{{ java.name }}'
+        dest: '{{ java.dest }}'
+        remote_src: yes
+
+  when: java.repo_url is defined and java.name is defined
 
 - name: add {{ java.dest }}{{ java.dirname }}/bin into $PATH
   lineinfile:
