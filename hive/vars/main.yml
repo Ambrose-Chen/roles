@@ -1,0 +1,40 @@
+---
+# vars file for hive
+
+
+_hive_version: 2
+
+_hive_repo_url: 'http://192.168.50.140/software/apache-hive-2.3.5-bin.tar.gz'
+_hive_repo_name: 'apache-hive-2.3.5-bin.tar.gz'
+
+_hive_dirname: 'apache-hive-2.3.5-bin'
+_hive_dest: '/opt'
+
+_hive_conf:
+  - 'hive-site.xml'
+
+_hive_hive_site:
+  - name: 'javax.jdo.option.ConnectionURL'
+    value: 'jdbc:mysql://os1:3306/hive?createDatabaseIfNotExist=true'
+  - name: 'javax.jdo.option.ConnectionDriverName'
+    value: 'com.mysql.jdbc.Driver'
+  - name: 'javax.jdo.PersistenceManagerFactoryClass'
+    value: 'org.datanucleus.api.jdo.JDOPersistenceManagerFactory'
+  - name: 'javax.jdo.option.DetachAllOnCommit'
+    value: 'true'
+  - name: 'javax.jdo.option.NonTransactionalRead'
+    value: 'true'
+  - name: 'javax.jdo.option.ConnectionUserName'
+    value: 'root'
+  - name: 'javax.jdo.option.ConnectionPassword'
+    value: 'root@cka.cloud'
+  - name: 'javax.jdo.option.Multithreaded'
+    value: 'true'
+  - name: 'datanucleus.connectionPoolingType'
+    value: 'BoneCP'
+  - name: 'hive.metastore.warehouse.dir'
+    value: '/user/hive/warehouse'
+  - name: 'hive.server2.thrift.port'
+    value: '10000'
+  - name: 'hive.server2.thrift.bind.host'
+    value: 'os1'

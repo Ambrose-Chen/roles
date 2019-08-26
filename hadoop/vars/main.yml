@@ -1,0 +1,78 @@
+---
+# vars file for hadoop
+
+_hadoop_version: 2
+
+_hadoop_repo_url: 'http://192.168.50.140/software/hadoop-2.9.2.tar.gz'
+_hadoop_repo_name: 'hadoop-2.9.2.tar.gz'
+
+_hadoop_dest: '/opt'
+_hadoop_dirname: 'hadoop-2.9.2'
+
+_hadoop_conf:
+  - slaves
+  - core-site.xml
+  - hdfs-site.xml
+  - mapred-site.xml
+  - yarn-site.xml
+
+
+_hadoop_core_site:
+  - name: 'fs.default.name'
+    value: 'hdfs://OS1:9000'
+  - name: 'fs.defaultFS'
+    value: 'hdfs://OS1:9000'
+  - name: 'hadoop.tmp.dir'
+    value: '/var/log/hadoop/tmp'
+  - name: 'hadoop.proxyuser.root.hosts'
+    value: '*'
+  - name: 'hadoop.proxyuser.root.groups'
+    value: '*'
+
+_hadoop_hdfs_site:
+  - name: 'dfs.namenode.name.dir'
+    value: 'file:///data/hadoop/dfs/name'
+  - name: 'dfs.datanode.data.dir'
+    value: 'file:///data/hadoop/dfs/data'
+  - name: 'dfs.replication'
+    value: '3'
+  - name: 'dfs.namenode.secondary.http-address'
+    value: 'OS2:50090'
+
+_hadoop_mapred_site:
+  - name: 'mapreduce.framework.name'
+    value: 'yarn'
+  - name: 'mapreduce.jobhistory.address'
+    value: 'OS1:10020'
+  - name: 'mapreduce.jobhistory.webapp.address'
+    value: 'OS1:19888'
+
+_hadoop_yarn_site:
+  - name: 'yarn.resourcemanager.hostname'
+    value: 'OS1'
+  - name: 'yarn.resourcemanager.address'
+    value: '${yarn.resourcemanager.hostname}:8032'
+  - name: 'yarn.resourcemanager.scheduler.address'
+    value: '${yarn.resourcemanager.hostname}:8030'
+  - name: 'yarn.resourcemanager.webapp.address'
+    value: '${yarn.resourcemanager.hostname}:8088'
+  - name: 'yarn.resourcemanager.webapp.https.address'
+    value: '${yarn.resourcemanager.hostname}:8090'
+  - name: 'yarn.resourcemanager.resource-tracker.address'
+    value: '${yarn.resourcemanager.hostname}:8031'
+  - name: 'yarn.resourcemanager.admin.address'
+    value: '${yarn.resourcemanager.hostname}:8033'
+  - name: 'yarn.nodemanager.local-dirs'
+    value: '/data/hadoop/yarn/local'
+  - name: 'yarn.log-aggregation-enable'
+    value: 'true'
+  - name: 'yarn.nodemanager.remote-app-log-dir'
+    value: '/data/tmp/logs'
+  - name: 'yarn.log.server.url'
+    value: 'http://os1:19888/jobhistory/logs'
+  - name: 'yarn.nodemanager.vmem-check-enabled'
+    value: 'false'
+  - name: 'yarn.nodemanager.aux-services'
+    value: 'mapreduce_shuffle'
+  - name: 'yarn.nodemanager.aux-services.mapreduce.shuffle.class'
+    value: 'org.apache.hadoop.mapred.ShuffleHandler'

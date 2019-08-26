@@ -1,0 +1,35 @@
+---
+# tasks file for hadoop
+
+- block:
+    
+    - name: get_url {{ _hadoop_repo_url }}
+      get_url:
+        url: '{{ _hadoop_repo_url }}'
+        dest: '{{ _hadoop_dest }}/{{ _hadoop_repo_name }}'
+
+    - name: 'Extract {{ _hadoop_dest }}/{{ _hadoop_repo_name }}'
+      unarchive:
+        src: '{{ _hadoop_dest }}/{{ _hadoop_repo_name }}'
+        dest: '{{ _hadoop_dest }}'
+        remote_src: yes
+
+  when: _hadoop_repo_url is defined
+
+- name: hadoop conf
+  template:
+    src: '{{ item }}.j2'
+    dest: '{{ _hadoop_dest }}/{{ _hadoop_dirname }}/etc/hadoop/{{ item }}'
+  loop: '{{ _hadoop_conf }}'
+
+- name: add bin/sbin into $PATH
+  lineinfile:
+    path: '/etc/bashrc'
+    line: 'export PATH=$PATH:{{ _hadoop_dest }}/{{ _hadoop_dirname }}/bin:{{ _hadoop_dest }}/{{ _hadoop_dirname }}/sbin'
+    create: yes
+
+- name: add $HADOOP_HOME
+  lineinfile:
+    path: '/etc/bashrc'
+    line: 'export HADOOP_HOME={{ _hadoop_dest }}/{{ _hadoop_dirname }}'
+    create: yes

@@ -1,0 +1,34 @@
+---
+# tasks file for hive
+
+- block:
+    - name: get_url {{ _hive_repo_url }}
+      get_url:
+        url: '{{ _hive_repo_url }}'
+        dest: '{{ _hive_dest }}/{{ _hive_repo_name }}'
+
+    - name: 'Extract {{ _hive_dest }}/{{ _hive_repo_name }}'
+      unarchive:
+        src: '{{ _hive_dest }}/{{ _hive_repo_name }}'
+        dest: '{{ _hive_dest }}'
+        remote_src: yes
+
+  when: _hive_repo_url is defined
+
+- name: hive conf
+  template:
+    src: '{{ item }}.j2'
+    dest: '{{ _hive_dest }}/{{ _hive_dirname }}/conf/{{ item }}'
+  loop: '{{ _hive_conf }}'
+
+- name: add {{ _hive_dest }}/{{ _hive_dirname }}/bin into $PATH
+  lineinfile:
+    path: '/etc/bashrc'
+    line: 'export PATH=$PATH:/{{ _hive_dest }}/{{ _hive_dirname }}/bin'
+    create: yes
+
+- name: set HIVE_HOME {{ _hive_dest }}/{{ _hive_dirname }}
+  lineinfile:
+    path: '/etc/bashrc'
+    line: 'export HIVE_HOME={{ _hive_dest }}/{{ _hive_dirname }}'
+    create: yes
