@@ -1,33 +1,15 @@
 ---
 # vars file for vminit
 #
-#
-# 172.16.121.5
-#vminit:
+# cka.name
+vminit:
 #  repo_file:
 #    - 'base'
 #    - 'epel'
-#    - 'mysql57-community'
-#    - 'rabbitmq-server36'
-#  packages:
-#    - 'bash-completion'
-#    - 'gcc'
-#    - 'mysql-community-server'
-#    - 'tree'
-#    - 'vim'
-#    - 'wget'
-#
-# cka.name
-vminit:
-  repo_file:
-    - 'base'
-    - 'epel'
-      #  repo_url:
-      #    - url: 'http://192.168.110.143/centos/centos-7.repo'
-      #      name: 'centos-7'
-
+  repo_url:
+    - url: 'http://192.168.110.100/centos/centos-7.repo'
+      name: 'centos-7'
   upgrade: yes
-
   packages:
     - 'bash-completion'
     - 'dmidecode'

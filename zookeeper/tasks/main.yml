@@ -1,0 +1,38 @@
+---
+# tasks file for zookeeper
+
+- block:
+
+    - name: get_url {{ _zookeeper_repo_url }}
+      get_url:
+        url: '{{ _zookeeper_repo_url }}'
+        dest: '{{ _zookeeper_dest }}/{{ _zookeeper_repo_name }}'
+
+    - name: 'Extract {{ _zookeeper_dest }}/{{ _zookeeper_repo_name }}'
+      unarchive:
+        src: '{{ _zookeeper_dest }}/{{ _zookeeper_repo_name }}'
+        dest: '{{ _zookeeper_dest }}'
+        remote_src: yes
+
+  when: _zookeeper_repo_url is defined
+
+- name:
+  template:
+    src: 'zoo.cfg.j2'
+    dest: '{{ _zookeeper_dest }}/{{ _zookeeper_dirname }}/conf/zoo.cfg'
+
+- name:
+  file:
+    path: '{{ _zookeeper_zoo_dataDir }}'
+    state: 'directory'
+
+- name:
+  template:
+    src: 'myid.j2'
+    dest: '{{ _zookeeper_zoo_dataDir }}/myid'
+
+- name:
+  lineinfile:
+    path: '/etc/bashrc'
+    line: 'export PATH=$PATH:/{{ _zookeeper_dest }}/{{ _zookeeper_dirname }}/bin'
+    create: yes

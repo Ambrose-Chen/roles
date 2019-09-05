@@ -11,4 +11,4 @@ mysql:
   repo_rpm:
     - 'mysql-community-server'
   remote: yes
-  password: 'root@cka.cloud'
+  password: 'SF_123.com'

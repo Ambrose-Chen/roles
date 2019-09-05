@@ -3,4 +3,4 @@
 
 redis:
   dest: '/opt'
-  passwd: 'redis'
+  passwd: 'SF_123.com'

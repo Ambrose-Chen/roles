@@ -1,0 +1,14 @@
+---
+# defaults file for zookeeper
+
+_zookeeper_repo_url: 'http://192.168.110.100/software/zookeeper-3.4.14.tar.gz'
+_zookeeper_repo_name: 'zookeeper-3.4.14.tar.gz'
+
+_zookeeper_dest: '/opt'
+_zookeeper_dirname: 'zookeeper-3.4.14'
+
+
+
+_zookeeper_zoo_dataDir: '/opt/zookeeper-3.4.14/data/'
+
+

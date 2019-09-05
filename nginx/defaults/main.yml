@@ -1,0 +1,15 @@
+---
+# defaults file for nginx
+
+#_nginx_repo_url: 'http://192.168.110.100/software/nginx-1.16.0.tar.gz'
+_nginx_repo_name: 'nginx-1.16.0.tar.gz'
+
+_nginx_dirname: 'nginx-1.16.0'
+_nginx_dest: '/tmp'
+_nginx_src: 'nginx-1.16.0.tar.gz'
+_nginx_prefix: '/opt/nginx'
+
+#_nginx_version: '1001000'
+#_nginx_VERSION: '1.1.0'
+#_nginx_VER: 'cfe'
+#_nginx_VAR: 'CFE'

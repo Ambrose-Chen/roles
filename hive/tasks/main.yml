@@ -15,11 +15,22 @@
 
   when: _hive_repo_url is defined
 
+- name: install connector
+  yum:
+    name: 'mysql-connector-java.noarch'
+    state: 'latest'
+
 - name: hive conf
   template:
     src: '{{ item }}.j2'
     dest: '{{ _hive_dest }}/{{ _hive_dirname }}/conf/{{ item }}'
   loop: '{{ _hive_conf }}'
+
+- name: add connector
+  copy:
+    src: '/usr/share/java/mysql-connector-java.jar'
+    dest: '{{ _hive_dest }}/{{ _hive_dirname }}/lib/'
+    remote_src: yes
 
 - name: add {{ _hive_dest }}/{{ _hive_dirname }}/bin into $PATH
   lineinfile:

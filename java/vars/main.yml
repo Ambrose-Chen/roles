@@ -10,12 +10,8 @@
 
 # cka.name
 java:
-        
-  #repo_url: 'http://192.168.110.143/software/jdk-8u211-linux-x64.tar.gz'
-  repo_url: 'http://192.168.50.140/software/jdk-8u211-linux-x64.tar.gz'
+  #repo_url: 'http://192.168.110.100/software/jdk-8u211-linux-x64.tar.gz'
   name: 'jdk-8u211-linux-x64.tar.gz'
-
-  #src: jdk-8u211-linux-x64.tar.gz
-
+  src: jdk-8u211-linux-x64.tar.gz
   dirname: jdk1.8.0_211
   dest: /opt/

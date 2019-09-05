@@ -2,13 +2,10 @@
 # vars file for hadoop
 
 _hadoop_version: 2
-
-_hadoop_repo_url: 'http://192.168.50.140/software/hadoop-2.9.2.tar.gz'
+_hadoop_repo_url: 'http://192.168.110.100/software/hadoop-2.9.2.tar.gz'
 _hadoop_repo_name: 'hadoop-2.9.2.tar.gz'
-
 _hadoop_dest: '/opt'
 _hadoop_dirname: 'hadoop-2.9.2'
-
 _hadoop_conf:
   - slaves
   - core-site.xml
@@ -16,12 +13,11 @@ _hadoop_conf:
   - mapred-site.xml
   - yarn-site.xml
 
-
 _hadoop_core_site:
   - name: 'fs.default.name'
-    value: 'hdfs://OS1:9000'
+    value: 'hdfs://os1:9000'
   - name: 'fs.defaultFS'
-    value: 'hdfs://OS1:9000'
+    value: 'hdfs://os1:9000'
   - name: 'hadoop.tmp.dir'
     value: '/var/log/hadoop/tmp'
   - name: 'hadoop.proxyuser.root.hosts'
@@ -37,19 +33,19 @@ _hadoop_hdfs_site:
   - name: 'dfs.replication'
     value: '3'
   - name: 'dfs.namenode.secondary.http-address'
-    value: 'OS2:50090'
+    value: 'os2:50090'
 
 _hadoop_mapred_site:
   - name: 'mapreduce.framework.name'
     value: 'yarn'
   - name: 'mapreduce.jobhistory.address'
-    value: 'OS1:10020'
+    value: 'os1:10020'
   - name: 'mapreduce.jobhistory.webapp.address'
-    value: 'OS1:19888'
+    value: 'os1:19888'
 
 _hadoop_yarn_site:
   - name: 'yarn.resourcemanager.hostname'
-    value: 'OS1'
+    value: 'os1'
   - name: 'yarn.resourcemanager.address'
     value: '${yarn.resourcemanager.hostname}:8032'
   - name: 'yarn.resourcemanager.scheduler.address'

@@ -1,0 +1,72 @@
+---
+# tasks file for nginx
+
+- block:
+
+    - name: 
+      get_url:
+        url: '{{ _nginx_repo_url }}'
+        dest: '/tmp/{{ _nginx_repo_name }}'
+    - name: Extract /tmp/{{ _nginx_repo_name }} into {{ _nginx_dest }}
+      unarchive:
+        src: '/tmp/{{ _nginx_repo_name }}'
+        dest: '{{ _nginx_dest }}'
+        remote_src: yes
+
+  when: _nginx_repo_url is defined
+
+- name:
+  unarchive:
+    src: '{{ _nginx_src }}'
+    dest: '{{ _nginx_dest }}'
+  when: _nginx_src is defined
+
+- name:
+  lineinfile:
+    path: '{{ _nginx_dest }}/{{ _nginx_dirname }}/src/core/nginx.h'
+    line: '#define nginx_version      {{ _nginx_version }}'
+    regexp: '#define nginx_version.*'
+  when: _nginx_version is defined
+
+- name:
+  lineinfile:
+    path: '{{ _nginx_dest }}/{{ _nginx_dirname }}/src/core/nginx.h'
+    line: '#define NGINX_VERSION      "{{ _nginx_VERSION }}"'
+    regexp: '#define NGINX_VERSION.*'
+  when: _nginx_VERSION is defined
+
+- name:
+  lineinfile:
+    path: '{{ _nginx_dest }}/{{ _nginx_dirname }}/src/core/nginx.h'
+    line: '#define NGINX_VER          "{{ _nginx_VER }}/" NGINX_VERSION'
+    regexp: '#define NGINX_VER .*'
+  when: _nginx_VER is defined
+
+- name:
+  lineinfile:
+    path: '{{ _nginx_dest }}/{{ _nginx_dirname }}/src/core/nginx.h'
+    line: '#define NGINX_VAR          "{{ _nginx_VAR }}"'
+    regexp: '#define NGINX_VAR .*'
+  when: _nginx_VAR is defined
+
+- name:
+  lineinfile:
+    path: '{{ _nginx_dest }}/{{ _nginx_dirname }}/src/http/ngx_http_header_filter_module.c'
+    line: 'static u_char ngx_http_server_string[] = "Server: {{ _nginx_VER }}" CRLF;'
+    regexp: '.*Server: nginx.*'
+  when: _nginx_VER is defined
+
+- name:
+  lineinfile:
+    path: '{{ _nginx_dest }}/{{ _nginx_dirname }}/src/http/ngx_http_special_response.c'
+    line: '"<hr><center>{{ _nginx_VER }}</center>" CRLF'
+    regexp: '.*>nginx<.*'
+  when: _nginx_VER is defined
+
+- name:
+  shell: |
+    cd {{ _nginx_dest }}/{{ _nginx_dirname }};
+    ./configure --prefix=/opt/nginx;
+    make;
+    make install;
+

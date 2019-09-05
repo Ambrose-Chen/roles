@@ -1,0 +1,5 @@
+{% for i in vars.play_hosts %}
+{% if i == ansible_hostname %}
+{{ loop.index }}
+{% endif %}
+{% endfor %}

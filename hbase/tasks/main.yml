@@ -1,0 +1,35 @@
+---
+# tasks file for hbase
+
+- block:
+    
+    - name: get_url {{ _hbase_repo_url }}
+      get_url:
+        url: '{{ _hbase_repo_url }}'
+        dest: '{{ _hbase_dest }}/{{ _hbase_repo_name }}'
+
+    - name: 'Extract {{ _hbase_dest }}/{{ _hbase_repo_name }}'
+      unarchive:
+        src: '{{ _hbase_dest }}/{{ _hbase_repo_name }}'
+        dest: '{{ _hbase_dest }}'
+        remote_src: yes
+
+  when: _hbase_repo_url is defined
+
+- name: hbase conf
+  template:
+    src: '{{ item }}.j2'
+    dest: '{{ _hbase_dest }}/{{ _hbase_dirname }}/conf/{{ item }}'
+  loop: '{{ _hbase_conf }}'
+
+- name: 
+  lineinfile:
+    path: '/etc/bashrc'
+    line: 'export PATH=$PATH:{{ _hbase_dest }}/{{ _hbase_dirname }}/bin'
+    create: yes
+
+- name:
+  lineinfile:
+    path: '{{ _hbase_dest }}/{{ _hbase_dirname }}/conf/hbase-env.sh'
+    line: 'export HBASE_MANAGES_ZK=false'
+    create: yes
