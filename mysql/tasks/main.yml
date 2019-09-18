@@ -1,13 +1,11 @@
 ---
 # tasks file for mysql
 
-- debug:
-    msg: '{{ mysql }}'
-
 - copy:
     src: '{{ item }}.repo'
     dest: '/etc/yum.repos.d/{{ item }}.repo'
   loop: '{{ mysql.repo_file }}'
+  when: mysql.repo_file is defined
 
 - yum:
     name: '{{ item }}'

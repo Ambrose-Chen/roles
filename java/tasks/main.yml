@@ -12,11 +12,11 @@
     - name: get_url {{ java.repo_url }} into {{ java.dest }}
       get_url:
         url: '{{ java.repo_url }}'
-        dest: '{{ java.dest }}/{{ java.name }}'
+        dest: '/tmp/{{ java.name }}'
 
     - name: Extract {{ java.name }}
       unarchive:
-        src: '{{ java.dest }}/{{ java.name }}'
+        src: '/tmp/{{ java.name }}'
         dest: '{{ java.dest }}'
         remote_src: yes
 

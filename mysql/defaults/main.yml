@@ -4,11 +4,11 @@
 
 mysql:
   version: 5
-  repo_file:
-    - 'mysql-community'
-    - 'mysql-community-source'
-  repoid: 'mysql57-community'
+  #repo_file:
+  #  - 'mysql-community'
+  #  - 'mysql-community-source'
+  repoid: 'mysql57-community7'
   repo_rpm:
     - 'mysql-community-server'
   remote: yes
-  password: 'SF_123.com'
+  password: 'FBS_123.com'

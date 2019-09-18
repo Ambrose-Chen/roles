@@ -64,6 +64,12 @@
   when: _nginx_VER is defined
 
 - name:
+  lineinfile:
+    path: '/etc/bashrc'
+    line: 'PATH=$PATH:/opt/nginx/sbin'
+    create: 'yes'
+
+- name:
   shell: |
     cd {{ _nginx_dest }}/{{ _nginx_dirname }};
     ./configure --prefix=/opt/nginx;
