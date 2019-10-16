@@ -1,11 +1,11 @@
 ---
 # vars file for hadoop
 
-_hadoop_version: 2
-_hadoop_repo_url: 'http://192.168.110.100/software/hadoop-2.9.2.tar.gz'
-_hadoop_repo_name: 'hadoop-2.9.2.tar.gz'
+_hadoop_version: 3
+_hadoop_repo_url: 'https://mirrors.aliyun.com/apache/hadoop/common/hadoop-3.2.1/hadoop-3.2.1.tar.gz'
+_hadoop_repo_name: 'hadoop-3.2.1.tar.gz'
 _hadoop_dest: '/opt'
-_hadoop_dirname: 'hadoop-2.9.2'
+_hadoop_dirname: 'hadoop-3.2.1'
 _hadoop_conf:
   - slaves
   - core-site.xml
@@ -15,9 +15,9 @@ _hadoop_conf:
 
 _hadoop_core_site:
   - name: 'fs.default.name'
-    value: 'hdfs://os1:9000'
+    value: 'hdfs://13.0.0.139:9000'
   - name: 'fs.defaultFS'
-    value: 'hdfs://os1:9000'
+    value: 'hdfs://13.0.0.139:9000'
   - name: 'hadoop.tmp.dir'
     value: '/var/log/hadoop/tmp'
   - name: 'hadoop.proxyuser.root.hosts'
@@ -33,19 +33,19 @@ _hadoop_hdfs_site:
   - name: 'dfs.replication'
     value: '3'
   - name: 'dfs.namenode.secondary.http-address'
-    value: 'os2:50090'
+    value: '13.0.0.141:50090'
 
 _hadoop_mapred_site:
   - name: 'mapreduce.framework.name'
     value: 'yarn'
   - name: 'mapreduce.jobhistory.address'
-    value: 'os1:10020'
+    value: '13.0.0.139:10020'
   - name: 'mapreduce.jobhistory.webapp.address'
-    value: 'os1:19888'
+    value: '13.0.0.139:19888'
 
 _hadoop_yarn_site:
   - name: 'yarn.resourcemanager.hostname'
-    value: 'os1'
+    value: '13.0.0.139'
   - name: 'yarn.resourcemanager.address'
     value: '${yarn.resourcemanager.hostname}:8032'
   - name: 'yarn.resourcemanager.scheduler.address'
@@ -65,7 +65,7 @@ _hadoop_yarn_site:
   - name: 'yarn.nodemanager.remote-app-log-dir'
     value: '/data/tmp/logs'
   - name: 'yarn.log.server.url'
-    value: 'http://os1:19888/jobhistory/logs'
+    value: 'http://13.0.0.139:19888/jobhistory/logs'
   - name: 'yarn.nodemanager.vmem-check-enabled'
     value: 'false'
   - name: 'yarn.nodemanager.aux-services'

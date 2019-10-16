@@ -6,11 +6,11 @@
     - name: get_url {{ _hadoop_repo_url }}
       get_url:
         url: '{{ _hadoop_repo_url }}'
-        dest: '{{ _hadoop_dest }}/{{ _hadoop_repo_name }}'
+        dest: '/tmp/{{ _hadoop_repo_name }}'
 
-    - name: 'Extract {{ _hadoop_dest }}/{{ _hadoop_repo_name }}'
+    - name: 'Extract /tmp/{{ _hadoop_repo_name }}'
       unarchive:
-        src: '{{ _hadoop_dest }}/{{ _hadoop_repo_name }}'
+        src: '/tmp/{{ _hadoop_repo_name }}'
         dest: '{{ _hadoop_dest }}'
         remote_src: yes
 

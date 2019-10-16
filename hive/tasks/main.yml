@@ -5,11 +5,11 @@
     - name: get_url {{ _hive_repo_url }}
       get_url:
         url: '{{ _hive_repo_url }}'
-        dest: '{{ _hive_dest }}/{{ _hive_repo_name }}'
+        dest: '/tmp/{{ _hive_repo_name }}'
 
-    - name: 'Extract {{ _hive_dest }}/{{ _hive_repo_name }}'
+    - name: 'Extract /tmp/{{ _hive_repo_name }}'
       unarchive:
-        src: '{{ _hive_dest }}/{{ _hive_repo_name }}'
+        src: '/tmp/{{ _hive_repo_name }}'
         dest: '{{ _hive_dest }}'
         remote_src: yes
 
