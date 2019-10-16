@@ -3,13 +3,13 @@
 #
 # cka.name
 vminit:
-#  repo_file:
-#    - 'base'
-#    - 'epel'
-  repo_url:
-    - url: 'http://192.168.110.100/centos/centos-7.repo'
+  repo_file:
+    - 'base'
+    - 'epel'
+#  repo_url:
+    #- url: 'http://192.168.110.100/centos/centos-7.repo'
     #- url: 'http://86.100.92.47/centos/centos-7.repo'
-      name: 'centos-7'
+    #  name: 'centos-7'
   upgrade: yes
   packages:
     - 'bash-completion'
