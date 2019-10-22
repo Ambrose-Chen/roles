@@ -6,11 +6,11 @@
     - name: get_url {{ _hbase_repo_url }}
       get_url:
         url: '{{ _hbase_repo_url }}'
-        dest: '{{ _hbase_dest }}/{{ _hbase_repo_name }}'
+        dest: '/tmp/{{ _hbase_repo_name }}'
 
-    - name: 'Extract {{ _hbase_dest }}/{{ _hbase_repo_name }}'
+    - name: 'Extract /tmp/{{ _hbase_repo_name }}'
       unarchive:
-        src: '{{ _hbase_dest }}/{{ _hbase_repo_name }}'
+        src: '/tmp/{{ _hbase_repo_name }}'
         dest: '{{ _hbase_dest }}'
         remote_src: yes
 

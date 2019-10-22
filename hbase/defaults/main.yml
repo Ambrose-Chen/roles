@@ -2,10 +2,10 @@
 # defaults file for hbase
 
 
-_hbase_repo_url: 'http://192.168.110.100/software/hbase-1.1.12-bin.tar.gz'
-_hbase_repo_name: 'hbase-1.1.12-bin.tar.gz'
+_hbase_repo_url: 'https://mirrors.aliyun.com/apache/hbase/1.4.10/hbase-1.4.10-bin.tar.gz'
+_hbase_repo_name: 'hbase-1.4.10-bin.tar.gz'
 _hbase_dest: '/opt'
-_hbase_dirname: 'hbase-1.1.12'
+_hbase_dirname: 'hbase-1.4.10'
 
 _hbase_conf:
   - hbase-site.xml
@@ -13,15 +13,15 @@ _hbase_conf:
 
 _hbase_hbase_site:
   - name: 'hbase.rootdir'
-    value: 'hdfs://os1:9000/hbase'
+    value: 'hdfs://13.0.0.139:9000/hbase'
   - name: 'hbase.master'
-    value: 'os1'
+    value: '13.0.0.139'
   - name: 'hbase.cluster.distributed'
     value: 'true'
   - name: 'hbase.Zookeeper.property.clientPort'
     value: '2181'
   - name: 'hbase.Zookeeper.quorum'
-    value: 'os1, os2, os3'
+    value: '13.0.0.139, 13.0.0.141, 13.0.0.143'
   - name: 'Zookeeper.session.timeout'
     value: '60000000'
   - name: 'dfs.support.append'
