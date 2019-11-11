@@ -6,4 +6,4 @@ pythonenv:
     - 'python36'
     - 'python36-devel'
     - 'python36-pip'
-  pips: 'django pandas virtualenv'
+  pips: 'autopep8 django pandas pylint virtualenv'

@@ -2,10 +2,10 @@
 # defaults file for hbase
 
 
-_hbase_repo_url: 'https://mirrors.aliyun.com/apache/hbase/1.4.10/hbase-1.4.10-bin.tar.gz'
-_hbase_repo_name: 'hbase-1.4.10-bin.tar.gz'
+_hbase_repo_url: 'https://mirrors.aliyun.com/apache/hbase/2.2.2/hbase-2.2.2-bin.tar.gz'
+_hbase_repo_name: 'hbase-2.2.2-bin.tar.gz'
 _hbase_dest: '/opt'
-_hbase_dirname: 'hbase-1.4.10'
+_hbase_dirname: 'hbase-2.2.2'
 
 _hbase_conf:
   - hbase-site.xml
@@ -16,6 +16,8 @@ _hbase_hbase_site:
     value: 'hdfs://13.0.0.139:9000/hbase'
   - name: 'hbase.master'
     value: '13.0.0.139'
+  - name: 'hbase.master.info.port'
+    value: '60010'
   - name: 'hbase.cluster.distributed'
     value: 'true'
   - name: 'hbase.Zookeeper.property.clientPort'
@@ -26,3 +28,15 @@ _hbase_hbase_site:
     value: '60000000'
   - name: 'dfs.support.append'
     value: 'true'
+  - name: 'hbase.tmp.dir'
+    value: '/hbase/tmp'
+  - name: 'hbase.rpc.timeout'
+    value: '1200000'
+  - name: 'hbase.client.operation.timeout'
+    value: '1200000'
+  - name: 'hbase.client.scanner.caching'
+    value: '1000'
+  - name: 'hbase.client.scanner.timeout.period'
+    value: '1200000'
+  - name: 'hbase.regionserver.wal.codec'
+    value: 'org.apache.hadoop.hbase.regionserver.wal.IndexedWALEditCodec'

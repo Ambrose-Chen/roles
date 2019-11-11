@@ -10,7 +10,7 @@ vminit:
     #- url: 'http://192.168.110.100/centos/centos-7.repo'
     #- url: 'http://86.100.92.47/centos/centos-7.repo'
     #  name: 'centos-7'
-  upgrade: yes
+  upgrade: no
   packages:
     - 'bash-completion'
     - 'gcc'
