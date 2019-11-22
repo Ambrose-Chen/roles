@@ -1,0 +1,232 @@
+---
+# tasks file for loophole
+#
+- name: '开放重要文件属性'
+  shell: |
+    chattr -i /etc/passwd;
+    chattr -i /etc/shadow;
+    chattr -i /etc/group;
+    chattr -i /etc/gshadow;
+
+- name: '检查是否禁止匿名用户登录FTP--禁止匿名VSFTP用户登录'
+  replace:
+    path: '{{ item }}'
+    regexp: '^anonymous_enable=.*$'
+    replace: 'anonymous_enable=NO'
+  loop:
+    - '/etc/vsftpd.conf'
+    - '/etc/vsftpd/vsftpd.conf'
+  ignore_errors: yes
+
+- name: '检查是否禁止匿名用户登录FTP--禁止匿名WU-FTP用户登录'
+  user:
+    name: 'ftp'
+    state: 'absent'
+
+- name: '检查用户目录缺省访问权限设置'
+  replace:
+    path: '/etc/login.defs'
+    regexp: '^UMASK[\s]+[0-9]+'
+    replace: 'UMASK    027'
+
+- name: '检查重要文件属性设置'
+  shell: |
+    chattr +i /etc/passwd;
+    chattr +i /etc/shadow;
+    chattr +i /etc/group;
+    chattr +i /etc/gshadow;
+
+- name: '检查是否安装snmp服务'
+  yum:
+    name: 'net-snmp'
+    state: 'absent'
+
+- name: '检查用户umask设置'
+  replace:
+    path: '{{ item }}'
+    regexp: 'umask[\s]*[0-9]*'
+    replace: 'umask    077'
+  loop:
+    - '/etc/csh.cshrc'
+    - '/etc/csh.login'
+    - '/etc/bashrc'
+    - '/etc/profile'
+
+- block:
+    - name: '检查重要目录或文件权限设置--0750'
+      file:
+        path: '{{ item }}'
+        mode: '0750'
+      loop:
+        - '/tmp'
+        - '/etc/rc0.d'
+        - '/etc/rc1.d'
+        - '/etc/rc2.d'
+        - '/etc/rc3.d'
+        - '/etc/rc4.d'
+        - '/etc/rc5.d'
+        - '/etc/rc6.d'
+        - '/etc/rc.d/init.d'
+    - name: '检查重要目录或文件权限设置--0644'
+      file:
+        path: '{{ item }}'
+        mode: '0644'
+      loop:
+        - '/etc/passwd'
+        - '/etc/group'
+        - '/etc/services'
+    - name: '检查重要目录或文件权限设置--0600'
+      file:
+        path: '{{ item }}'
+        mode: '0600'
+      loop:
+        - '/etc/xinetd.conf'
+        - '/etc/inetd.conf'
+        - '/etc/security'
+        - '/etc/grub.conf'
+        - '/boot/grub/grub.conf'
+        - '/etc/lilo.conf'
+        - '/etc/grub2.cfg'
+        - '/boot/grub2/grub.cfg'
+  ignore_errors: yes
+
+- name: '检查是否设置口令生存周期'
+  replace:
+    path: '/etc/login.defs'
+    regexp: 'PASS_MAX_DAYS[\s]+[0-9]+'
+    replace: 'PASS_MAX_DAYS   90'
+
+- name: '检查口令最小长度'
+  replace:
+    path: '/etc/login.defs'
+    regexp: 'PASS_MIN_LEN[\s]+[0-9]+'
+    replace: 'PASS_MIN_LEN   6'
+
+- name: '检查是否设置口令更改最小间隔天数'
+  replace:
+    path: '/etc/login.defs'
+    regexp: 'PASS_MIN_DAYS[\s]+[0-9]+'
+    replace: 'PASS_MIN_DAYS   6'
+
+- name: '检查是否设置口令过期前警告天数'
+  replace:
+    path: '/etc/login.defs'
+    regexp: 'PASS_WARN_AGE[\s]+[0-9]+'
+    replace: 'PASS_WARN_AGE   30'
+
+- name: '检查密码重复使用次数限制'
+  replace:
+    path: '/etc/pam.d/system-auth'
+    regexp: '(password[\s]+sufficient((?!remember).)*$)'
+    replace: '\1 remember=5'
+
+- name: '检查系统内核参数配置'
+  sysctl:
+    name: '{{ item.name }}'
+    value: '{{ item.value }}'
+    sysctl_set: yes
+    state: present
+    reload: yes
+  loop:
+    - name: 'net.ipv4.conf.all.accept_source_route'
+      value: '0'
+    - name: 'net.ipv4.conf.all.accept_redirects'
+      value: '0'
+    - name: 'net.ipv4.icmp_echo_ignore_broadcasts'
+      value: '1'
+    - name: 'net.ipv4.conf.all.send_redirects'
+      value: '0'
+    - name: 'net.ipv4.ip_forward'
+      value: '0'
+
+- name: '检查是否设置命令行界面超时退出'
+  lineinfile:
+    path: '/etc/profile'
+    line: 'export TMOUT=600'
+
+- name: '检查历史命令设置'
+  replace:
+    path: '/etc/profile'
+    regexp: 'HISTFILESIZE=[0-9]+'
+    replace: 'HISTFILESIZE=5'
+
+- name: '检查是否禁止root用户登录FTP'
+  lineinfile:
+    path: '{{ item }}'
+    line: 'root'
+  loop:
+    - '/etc/vsftpd/ftpusers'
+    - '/etc/ftpusers'
+  ignore_errors: yes
+
+- name: '检查系统core dump设置'
+  lineinfile:
+    path: '/etc/security/limits.conf'
+    line: '{{ item }}'
+  loop:
+    - '*    soft    core    0'
+    - '*    hard    core    0'
+
+- name: '检查是否关闭IP伪装和绑定多IP功能--检查是否配置关闭多IP绑定'
+  replace:
+    path: '/etc/host.conf'
+    regexp: 'multi.*'
+    replace: 'multi off'
+- lineinfile:
+    path: '/etc/host.conf'
+    line: 'multi off'
+    create: yes
+
+- name: '检查是否关闭IP伪装和绑定多IP功能--检查是否配置关闭IP伪装'
+  replace:
+    path: '/etc/host.conf'
+    regexp: 'nospoof.*'
+    replace: 'nospoof on'
+- lineinfile:
+    path: '/etc/host.conf'
+    line: 'nospoof on'
+    create: yes
+
+- name: '检查设备密码复杂度策略'
+  lineinfile:
+    path: '/etc/pam.d/system-auth'
+    insertbefore: '.*pam_pwquality.so.*'
+    line: 'password    requisite     pam_cracklib.so ucredit=-1 lcredit=-1 dcredit=-1'
+
+- name: ''
+  lineinfile:
+    path: '/etc/aliases'
+    regexp: '(^{{ item }}.*)'
+    line: '# \1'
+    backrefs: yes
+  loop:
+    - 'games'
+    - 'ingres'
+    - 'system'
+    - 'toor'
+    - 'uucp'
+    - 'manager'
+    - 'dumper'
+    - 'operator'
+    - 'decode'
+    - 'root'
+  ignore_errors: yes
+
+- name: ''
+  lineinfile:
+    path: '/etc/mail/aliases'
+    regexp: '(^{{ item }}.*)'
+    line: '# \1'
+    backrefs: yes
+  loop:
+    - 'games'
+    - 'ingres'
+    - 'system'
+    - 'toor'
+    - 'uucp'
+    - 'manager'
+    - 'dumper'
+    - 'operator'
+    - 'decode'
+    - 'root'
+  ignore_errors: yes
