@@ -3,10 +3,10 @@
 
 - get_url:
     url: 'http://download.redis.io/redis-stable.tar.gz'
-    dest: '{{ redis.dest }}/redis-stable.tar.gz'
+    dest: '/tmp/redis-stable.tar.gz'
 
 - unarchive:
-    src: '{{ redis.dest }}/redis-stable.tar.gz'
+    src: '/tmp/redis-stable.tar.gz'
     dest: '{{ redis.dest }}'
     remote_src: yes
 
