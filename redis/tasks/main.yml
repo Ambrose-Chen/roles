@@ -2,11 +2,19 @@
 # tasks file for redis
 
 - get_url:
+<<<<<<< HEAD
     url: '{{ redis.repo_url }}'
     dest: '/tmp/{{ redis.name }}'
 
 - unarchive:
     src: '/tmp/{{ redis.name }}'
+=======
+    url: 'http://download.redis.io/redis-stable.tar.gz'
+    dest: '/tmp/redis-stable.tar.gz'
+
+- unarchive:
+    src: '/tmp/redis-stable.tar.gz'
+>>>>>>> 3a91860abc2a5d2eb6ee61e6a44335a717d0e133
     dest: '{{ redis.dest }}'
     remote_src: yes
 
