@@ -2,7 +2,7 @@
 # defaults file for hbase
 
 
-_hbase_repo_url: 'https://mirrors.aliyun.com/apache/hbase/2.2.2/hbase-2.2.2-bin.tar.gz'
+_hbase_repo_url: 'http://192.168.110.100/software/hbase/hbase-2.2.2-bin.tar.gz'
 _hbase_repo_name: 'hbase-2.2.2-bin.tar.gz'
 _hbase_dest: '/opt'
 _hbase_dirname: 'hbase-2.2.2'
@@ -13,9 +13,9 @@ _hbase_conf:
 
 _hbase_hbase_site:
   - name: 'hbase.rootdir'
-    value: 'hdfs://13.0.0.139:9000/hbase'
+    value: 'hdfs://slave1:9000/hbase'
   - name: 'hbase.master'
-    value: '13.0.0.139'
+    value: 'slave1'
   - name: 'hbase.master.info.port'
     value: '60010'
   - name: 'hbase.cluster.distributed'
@@ -23,7 +23,7 @@ _hbase_hbase_site:
   - name: 'hbase.Zookeeper.property.clientPort'
     value: '2181'
   - name: 'hbase.Zookeeper.quorum'
-    value: '13.0.0.139, 13.0.0.141, 13.0.0.143'
+    value: 'slave1, slave2, slave3'
   - name: 'Zookeeper.session.timeout'
     value: '60000000'
   - name: 'dfs.support.append'
@@ -38,5 +38,5 @@ _hbase_hbase_site:
     value: '1000'
   - name: 'hbase.client.scanner.timeout.period'
     value: '1200000'
-  - name: 'hbase.regionserver.wal.codec'
-    value: 'org.apache.hadoop.hbase.regionserver.wal.IndexedWALEditCodec'
+  - name: 'hbase.unsafe.stream.capability.enforce'
+    value: 'false'

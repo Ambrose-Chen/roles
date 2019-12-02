@@ -6,11 +6,11 @@
     - name: get_url {{ _zookeeper_repo_url }}
       get_url:
         url: '{{ _zookeeper_repo_url }}'
-        dest: '{{ _zookeeper_dest }}/{{ _zookeeper_repo_name }}'
+        dest: '/tmp/{{ _zookeeper_repo_name }}'
 
-    - name: 'Extract {{ _zookeeper_dest }}/{{ _zookeeper_repo_name }}'
+    - name: 'Extract /tmp/{{ _zookeeper_repo_name }}'
       unarchive:
-        src: '{{ _zookeeper_dest }}/{{ _zookeeper_repo_name }}'
+        src: '/tmp/{{ _zookeeper_repo_name }}'
         dest: '{{ _zookeeper_dest }}'
         remote_src: yes
 

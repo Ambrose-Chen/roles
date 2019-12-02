@@ -27,5 +27,5 @@ clientPort={{ _zookeeper_zoo_clientPort | default('2181') }}
 # Set to "0" to disable auto purge feature
 #autopurge.purgeInterval=1
 {% for i in vars.play_hosts %}
-server.{{ loop.index }}={{ hostvars[i].ansible_default_ipv4.address }}:2888:3888
+server.{{ loop.index }}={{ hostvars[i].inventory_hostname }}:2888:3888
 {% endfor %}

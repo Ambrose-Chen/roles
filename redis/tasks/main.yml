@@ -2,16 +2,16 @@
 # tasks file for redis
 
 - get_url:
-    url: 'http://download.redis.io/redis-stable.tar.gz'
-    dest: '{{ redis.dest }}/redis-stable.tar.gz'
+    url: '{{ redis.repo_url }}'
+    dest: '/tmp/{{ redis.name }}'
 
 - unarchive:
-    src: '{{ redis.dest }}/redis-stable.tar.gz'
+    src: '/tmp/{{ redis.name }}'
     dest: '{{ redis.dest }}'
     remote_src: yes
 
 - shell: |
-    cd {{ redis.dest }}/redis-stable;
+    cd {{ redis.dest }}/{{ redis.dirname }};
     make;
     make install;
   register: make_result
@@ -27,7 +27,7 @@
     - '/var/lib/redis'
 
 - copy:
-    src: '{{ redis.dest }}/redis-stable/redis.conf'
+    src: '{{ redis.dest }}/{{ redis.dirname }}/redis.conf'
     dest: '/etc/redis/6379.conf'
     remote_src: yes
 

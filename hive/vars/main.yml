@@ -3,16 +3,16 @@
 
 
 _hive_version: 3
-_hive_repo_url: 'https://mirrors.aliyun.com/apache/hive/hive-2.3.6/apache-hive-2.3.6-bin.tar.gz'
-_hive_repo_name: 'apache-hive-2.3.6-bin.tar.gz'
-_hive_dirname: 'apache-hive-2.3.6-bin'
+_hive_repo_url: 'http://192.168.110.100/software/hive/apache-hive-3.1.2-bin.tar.gz'
+_hive_repo_name: 'apache-hive-3.1.2-bin.tar.gz'
+_hive_dirname: 'apache-hive-3.1.2-bin'
 _hive_dest: '/opt'
 _hive_conf:
   - 'hive-site.xml'
 
 _hive_hive_site:
   - name: 'javax.jdo.option.ConnectionURL'
-    value: 'jdbc:mysql://13.0.0.139:3306/hive?createDatabaseIfNotExist=true'
+    value: 'jdbc:mysql://slave1:3306/hive?createDatabaseIfNotExist=true'
   - name: 'javax.jdo.option.ConnectionDriverName'
     value: 'com.mysql.jdbc.Driver'
   - name: 'javax.jdo.PersistenceManagerFactoryClass'
@@ -24,7 +24,7 @@ _hive_hive_site:
   - name: 'javax.jdo.option.ConnectionUserName'
     value: 'root'
   - name: 'javax.jdo.option.ConnectionPassword'
-    value: 'AIrisk123'
+    value: 'ROOT@cka.cloud'
   - name: 'javax.jdo.option.Multithreaded'
     value: 'true'
   - name: 'datanucleus.connectionPoolingType'
@@ -34,4 +34,4 @@ _hive_hive_site:
   - name: 'hive.server2.thrift.port'
     value: '10000'
   - name: 'hive.server2.thrift.bind.host'
-    value: '13.0.0.139'
+    value: 'slave1'

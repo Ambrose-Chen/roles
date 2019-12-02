@@ -2,16 +2,25 @@
 # vars file for hadoop
 
 _hadoop_version: 3
-_hadoop_repo_url: 'https://mirrors.aliyun.com/apache/hadoop/common/hadoop-3.2.1/hadoop-3.2.1.tar.gz'
+_hadoop_repo_url: 'http://192.168.110.100/software/hadoop/hadoop-3.2.1.tar.gz'
+#_hadoop_repo_url: 'https://mirrors.aliyun.com/apache/hadoop/common/hadoop-3.2.1/hadoop-3.2.1.tar.gz'
 _hadoop_repo_name: 'hadoop-3.2.1.tar.gz'
 _hadoop_dest: '/opt'
 _hadoop_dirname: 'hadoop-3.2.1'
 _hadoop_conf:
   - slaves
+  - hadoop-env.sh
   - core-site.xml
   - hdfs-site.xml
   - mapred-site.xml
   - yarn-site.xml
+
+_hadoop_hadoop_env:
+  HDFS_NAMENODE_USER: root
+  HDFS_DATANODE_USER: root
+  HDFS_SECONDARYNAMENODE_USER: root
+  YARN_RESOURCEMANAGER_USER: root
+  YARN_NODEMANAGER_USER: root
 
 _hadoop_core_site:
   - name: 'fs.defaultFS'
