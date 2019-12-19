@@ -4,18 +4,23 @@
 - copy:
     src: '{{ item }}.repo'
     dest: '/etc/yum.repos.d/{{ item }}.repo'
-  loop: '{{ mysql.repo_file }}'
-  when: mysql.repo_file is defined
+  loop: '{{ _mysql_repo_file }}'
+  when: _mysql_repo_file is defined
 
 - yum:
     name: '{{ item }}'
     state: 'latest'
-    enablerepo: '{{ mysql.repoid }}'
-  loop: '{{ mysql.repo_rpm }}'
+    enablerepo: '{{ _mysql_repoid }}'
+  loop: '{{ _mysql_repo_rpm }}'
+
+- lineinfile:
+    path: '/etc/my.cnf'
+    line: '{{ item }}'
+  loop: '{{ _mysql_my_cnf }}'
 
 - systemd:
     name: 'mysqld'
-    state: 'started'
+    state: 'restarted'
     enabled: yes
 
 - template:

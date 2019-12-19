@@ -2,13 +2,15 @@
 # defaults file for mysql
 
 
-mysql:
-  version: 5
-#  repo_file:
+_mysql_version: 5
+#_mysql_repo_file:
 #    - 'mysql-community'
 #    - 'mysql-community-source'
-  repoid: 'mysql57-community7'
-  repo_rpm:
+_mysql_repoid: 'mysql57-community7'
+_mysql_repo_rpm:
     - 'mysql-community-server'
-  remote: yes
-  password: 'ROOT@cka.cloud'
+_mysql_remote: yes
+_mysql_password: 'ROOT@cka.cloud'
+_mysql_my_cnf:
+  - 'lower_case_table_names=1'
+  - 'max_allowed_packet=20M'

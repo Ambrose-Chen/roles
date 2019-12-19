@@ -1,22 +1,39 @@
 #!/bin/bash
 
-passwd=`cat /var/log/mysqld.log | grep -w 'temporary password' | awk '{print $NF}'`
-mysql -uroot -p${passwd} --connect-expired-password <<EOF
-
-{% if mysql.version == 8 %}
+_SQL()
+{
+	mysql -uroot -p${1} --connect-expired-password <<EOF
+{% if _mysql_version == 8 %}
     set global validate_password.policy=LOW;
     set global validate_password.length=0;
 {% endif %}
 
-{% if mysql.version == 5 %}
+{% if _mysql_version == 5 %}
     set global validate_password_policy=LOW;
     set global validate_password_length=0;
 {% endif %}
 
-    alter user 'root'@'localhost' identified by '{{ mysql.password }}';
+    alter user 'root'@'localhost' identified by '{{ _mysql_password }}';
 
-{% if mysql.remote %}
-    create user 'root'@'%' identified by '{{ mysql.password }}';
+{% if _mysql_remote %}
+    create user if not exists 'root'@'%' identified by '{{ _mysql_password }}';
     grant all privileges on *.* to 'root'@'%';
 {% endif %}
 EOF
+
+}
+
+passwd=`cat /var/log/mysqld.log | grep -w 'temporary password' | awk '{print $NF}'`
+_SQL $passwd
+if [ "$?" -eq 0 ];then
+	exit 0
+fi
+
+passwd='{{ _mysql_password }}'
+_SQL $passwd
+if [ "$?" -eq 0 ];then
+        exit 0
+fi      
+
+echo 'Password has been changed'
+exit 1

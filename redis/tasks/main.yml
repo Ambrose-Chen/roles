@@ -1,25 +1,23 @@
 ---
 # tasks file for redis
+#
+- block:
 
-- get_url:
-<<<<<<< HEAD
-    url: '{{ redis.repo_url }}'
-    dest: '/tmp/{{ redis.name }}'
+    - name: get url {{ _redis_repo_url }} into /tmp/{{ _redis_name }}
+      get_url:
+        url: '{{ _redis_repo_url }}'
+        dest: '/tmp/{{ _redis_name }}'
+    
+    - name: Extract /tmp/{{ _redis_name }} into {{ _redis_dest }}
+      unarchive:
+        src: '/tmp/{{ _redis_name }}'
+        dest: '{{ _redis_dest }}'
+        remote_src: yes
 
-- unarchive:
-    src: '/tmp/{{ redis.name }}'
-=======
-    url: 'http://download.redis.io/redis-stable.tar.gz'
-    dest: '/tmp/redis-stable.tar.gz'
-
-- unarchive:
-    src: '/tmp/redis-stable.tar.gz'
->>>>>>> 3a91860abc2a5d2eb6ee61e6a44335a717d0e133
-    dest: '{{ redis.dest }}'
-    remote_src: yes
+  when: _redis_repo_url is defined
 
 - shell: |
-    cd {{ redis.dest }}/{{ redis.dirname }};
+    cd {{ _redis_dest }}/{{ _redis_dirname }};
     make;
     make install;
   register: make_result
@@ -33,28 +31,79 @@
   loop:
     - '/etc/redis'
     - '/var/lib/redis'
+    - '/var/log/redis'
 
 - copy:
-    src: '{{ redis.dest }}/{{ redis.dirname }}/redis.conf'
-    dest: '/etc/redis/6379.conf'
+    src: '{{ _redis_dest }}/{{ _redis_dirname }}/redis.conf'
+    dest: '/etc/redis/{{ item }}.conf'
     remote_src: yes
+  loop: '{{ _redis_port }}'
 
-- replace:
-    path: '/etc/redis/6379.conf'
+- name: port
+  replace:
+    path: '/etc/redis/{{ item }}.conf'
+    regexp: '^port.*'
+    replace: 'port {{ item }}'
+  loop: '{{ _redis_port }}'
+
+- name: password
+  replace:
+    path: '/etc/redis/{{ item }}.conf'
     regexp: '^# requirepass .*'
-    replace: 'requirepass {{ redis.passwd }}'
+    replace: 'requirepass {{ _redis_passwd }}'
+  loop: '{{ _redis_port }}'
 
-- replace:
-    path: '/etc/redis/6379.conf'
+- name: daemonize
+  replace:
+    path: '/etc/redis/{{ item }}.conf'
     regexp: 'daemonize.*'
     replace: 'daemonize yes'
+  loop: '{{ _redis_port }}'
 
-- replace:
-    path: '/etc/redis/6379.conf'
+- name: dir
+  replace:
+    path: '/etc/redis/{{ item }}.conf'
     regexp: '^dir.*'
     replace: 'dir /var/lib/redis'
+  loop: '{{ _redis_port }}'
 
-- lineinfile:
-    path: '/etc/bashrc'
-    line: 'alias redis-server="redis-server /etc/redis/6379.conf"'
-    create: yes
+- name: pidfile
+  replace:
+    path: '/etc/redis/{{ item }}.conf'
+    regexp: '^pidfile.*'
+    replace: 'pidfile /var/run/redis_{{ item }}.pid'
+  loop: '{{ _redis_port }}'
+
+- name: logfile
+  replace:
+    path: '/etc/redis/{{ item }}.conf'
+    regexp: '^logfile.*'
+    replace: 'logfile /var/log/redis/{{ item }}.log'
+  loop: '{{ _redis_port }}'
+
+- name: dbfilename
+  replace:
+    path: '/etc/redis/{{ item }}.conf'
+    regexp: '^dbfilename.*'
+    replace: 'dbfilename {{ item }}.rdb'
+  loop: '{{ _redis_port }}'
+
+- name: bind
+  lineinfile:
+    path: '/etc/redis/{{ item }}.conf'
+    regexp: '(^bind.*)'
+    line: '\1 {{ ansible_default_ipv4.address }}'
+    backrefs: yes
+  loop: '{{ _redis_port }}'
+  when: _redis_external|bool
+
+- block:
+
+    - name:
+      replace:
+        path: '/etc/redis/{{ item }}.conf'
+        regexp: '^dbfilename.*'
+        replace: 'dbfilename {{ item }}.rdb'
+      loop: '{{ _redis_port }}'
+
+  when: _redis_cluster_mode|bool
