@@ -1,14 +1,29 @@
 ---
 # tasks file for git
 
-- name: git install
+- name: Extract {{ _git_src }} into {{ _git_dest }}
   unarchive:
-    src: '{{ git.src }}'
-    dest: '{{ git.dest }}'
+    src: '{{ _git_src }}'
+    dest: '{{ _git_dest }}'
+  when: _git_src is defined
+
+- block:
+    - name: get_url {{ _git_src }} into /tmp
+      get_url:
+        url: '{{ _git_repo_url }}'
+        dest: '/tmp/{{ _git_name }}'
+
+    - name: Extract {{ _git_name }}
+      unarchive:
+        src: '/tmp/{{ _git_name }}'
+        dest: '{{ _git_dest }}'
+        remote_src: yes
+
+  when: _git_repo_url is defined and _git_name is defined
 
 - name: build 
   shell: |
-    cd {{ git.dest }}{{ git.dirname }};
+    cd {{ _git_dest }}{{ _git_dirname }};
     ./configure --with-curl;
     make;
     make install;
@@ -16,5 +31,5 @@
 - name: source git completion
   lineinfile:
     path: '/etc/bashrc'
-    line: '. {{ git.dest }}{{ git.dirname }}/contrib/completion/git-completion.bash'
+    line: '. {{ _git_dest }}{{ _git_dirname }}/contrib/completion/git-completion.bash'
     state: 'present'
