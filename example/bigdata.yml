@@ -1,0 +1,53 @@
+- hosts: slave
+  tasks:
+    - import_role:
+        name: java
+
+    - import_role:
+        name: hadoop
+    - shell: |
+        hdfs namenode -format
+      when: inventory_hostname == 'slave1'
+      ignore_errors: yes
+
+    - shell: |
+        start-all.sh
+      when: inventory_hostname == 'slave1'
+    - shell: |
+        start-all.sh
+      when: inventory_hostname == 'slave2'
+    - shell: |
+        start-all.sh
+      when: inventory_hostname == 'slave3'
+
+    - import_role:
+        name: mysql
+      when: inventory_hostname == 'slave1'
+    - shell: |
+        mysql -uroot -pROOT@cka.cloud -e 'create database if not exists hive'
+      when: inventory_hostname == 'slave1'
+    - import_role:
+        name: hive
+      when: inventory_hostname == 'slave1'
+    - shell: |
+        rm -rf $HIVE_HOME/lib/gu*;
+        cp $HADOOP_HOME/share/hadoop/common/lib/gu* $HIVE_HOME/lib/;
+        schematool -dbType mysql -initSchema;
+      when: inventory_hostname == 'slave1'
+
+    - import_role:
+        name: zookeeper
+    - shell: |
+        zkServer.sh start;
+
+    - import_role:
+        name: hbase
+    - shell: |
+        start-hbase.sh
+      when: inventory_hostname == 'slave1'
+
+#    - yum:
+#        name: 'http://192.168.110.100/software/scala/scala-2.13.1.rpm'
+#        state: 'present'
+    - import_role:
+        name: spark

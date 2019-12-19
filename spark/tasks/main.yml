@@ -1,0 +1,28 @@
+---
+# tasks file for spark
+
+- block:
+
+    - name: get_url {{ _spark_repo_url }}
+      get_url:
+        url: '{{ _spark_repo_url }}'
+        dest: '/tmp/{{ _spark_repo_name }}'
+    - name: 'Extract /tmp/{{ _spark_repo_name }}'
+      unarchive:
+        src: '/tmp/{{ _spark_repo_name }}'
+        dest: '{{ _spark_dest }}'
+        remote_src: yes
+
+  when: _spark_repo_url is defined
+
+- name: spark conf
+  template:
+    src: '{{ item }}.j2'
+    dest: '{{ _spark_dest }}/{{ _spark_dirname }}/conf/{{ item }}'
+  loop: '{{ _spark_conf }}'
+
+- name: add $SPARK_HOME
+  lineinfile:
+    path: '/etc/bashrc'
+    line: 'export SPARK_HOME={{ _spark_dest }}/{{ _spark_dirname }}'
+    create: yes

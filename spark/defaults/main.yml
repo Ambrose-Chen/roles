@@ -1,0 +1,21 @@
+---
+# defaults file for spark
+#
+
+_spark_repo_url: 'http://192.168.110.100/software/spark/spark-2.4.4-bin-hadoop2.7.tgz'
+_spark_repo_name: 'spark-2.4.4-bin-hadoop2.7.tgz'
+
+_spark_dest: '/opt'
+_spark_dirname: 'spark-2.4.4-bin-hadoop2.7'
+_spark_conf:
+  - slaves
+  - spark-env.sh
+  - spark-default.conf
+
+_spark_spark_default:
+  - name: 'spark.master'
+    value: 'spark://slave1:7077'
+  - name: 'spark.eventLog.enabled'
+    value: 'true'
+  - name: 'spark.eventLog.dir'
+    value: 'hdfs://slave1:9000/sparklog'
