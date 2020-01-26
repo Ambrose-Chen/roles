@@ -44,10 +44,24 @@
     state: 'disabled'
 
 - name: upgrade all
-  yum:
-    name: '*'
-    state: 'latest'
-    update_only: 'yes'
+  block:
+    - yum:
+        name: '*'
+        state: 'latest'
+        update_only: 'yes'
+
+    - name: remove default repo files
+      file:
+        path: '{{ item }}'
+        state: 'absent'
+      loop:
+        - '/etc/yum.repos.d/CentOS-Base.repo'
+        - '/etc/yum.repos.d/CentOS-CR.repo'
+        - '/etc/yum.repos.d/CentOS-Debuginfo.repo'
+        - '/etc/yum.repos.d/CentOS-fasttrack.repo'
+        - '/etc/yum.repos.d/CentOS-Media.repo'
+        - '/etc/yum.repos.d/CentOS-Sources.repo'
+        - '/etc/yum.repos.d/CentOS-Vault.repo'
   when: vminit.upgrade is defined and vminit.upgrade |bool
 
 - name: install some packages you need
