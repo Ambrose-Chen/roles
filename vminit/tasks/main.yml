@@ -19,15 +19,14 @@
     src: '{{ item }}.repo'
     dest: '/etc/yum.repos.d/{{ item }}.repo'
     mode: '0644'
-  loop: '{{ vminit.repo_file }}'
-  when: vminit.repo_file is defined
+  loop: '{{ _vminit.repo_file }}'
+  when: _vminit.repo_file is defined
 
 - name: get centos repo
   get_url:
-    url: '{{ item.url }}'
-    dest: '/etc/yum.repos.d/{{ item.name }}.repo'
-  loop: '{{ vminit.repo_url }}'
-  when: vminit.repo_url is defined
+    url: '{% if internet %}{{ _vminit_repo_url_i }}{% else %}{{ _vminit_repo_url }}{% endif %}'
+    dest: '/etc/yum.repos.d/{{ _vminit_repo_name }}.repo'
+  when: _vminit_repo_url is defined and _vminit_repo_url_i is defined
 
 - name: update hostname at inventory hostname
   hostname:
@@ -62,11 +61,11 @@
         - '/etc/yum.repos.d/CentOS-Media.repo'
         - '/etc/yum.repos.d/CentOS-Sources.repo'
         - '/etc/yum.repos.d/CentOS-Vault.repo'
-  when: vminit.upgrade is defined and vminit.upgrade |bool
+  when: _vminit_upgrade is defined and _vminit_upgrade |bool
 
 - name: install some packages you need
   yum:
     name: '{{ item }}'
     state: 'present'
-  loop: '{{ vminit.packages }}'
-  when: vminit.packages is defined
+  loop: '{{ _vminit_packages }}'
+  when: _vminit_packages is defined

@@ -1,35 +1,42 @@
 ---
 # tasks file for java
-
-- name: Extract {{ java.src }} into {{ java.dest }}
-  unarchive:
-    src: '{{ java.src }}'
-    dest: '{{ java.dest }}'
-  when: java.src is defined
-
 - block:
-    
-    - name: get_url {{ java.repo_url }} into {{ java.dest }}
-      get_url:
-        url: '{{ java.repo_url }}'
-        dest: '/tmp/{{ java.name }}'
-
-    - name: Extract {{ java.name }}
+    - name: Extract {{ _java_local_src }} into {{ _java_dest }}
       unarchive:
-        src: '/tmp/{{ java.name }}'
-        dest: '{{ java.dest }}'
-        remote_src: yes
+        src: '{{ _java_local_src }}'
+        dest: '{{ _java_dest }}'
+      when: local is defined and local|bool and _java_local_src is defined
+    
+    - block:
+        
+        - name: get_url {{ _java_repo_url }} into {{ _java_dest }}
+          get_url:
+            url: '{{ _java_repo_url }}'
+            dest: '/tmp/{{ _java_name }}'
+    
+        - name: Extract {{ _java_repo_name }}
+          unarchive:
+            src: '/tmp/{{ _java_repo_name }}'
+            dest: '{{ _java_dest }}'
+            remote_src: yes
+    
+      when: _java_repo_url is defined
+    
+    - name: add {{ _java_dest }}{{ _java_dirname }}/bin into $PATH
+      lineinfile:
+        path: '/etc/bashrc'
+        line: 'export PATH=$PATH:{{ _java_dest }}{{ _java_dirname }}/bin'
+        create: 'yes'
+    
+    - name: add JAVA_HOME={{ _java_dest }}{{ _java_dirname }}
+      lineinfile:
+        path: '/etc/bashrc'
+        line: 'export JAVA_HOME={{ _java_dest }}{{ _java_dirname }}'
+        create: 'yes'
+  when: _java_oracle is defined and _java_oracle|bool
 
-  when: java.repo_url is defined and java.name is defined
-
-- name: add {{ java.dest }}{{ java.dirname }}/bin into $PATH
-  lineinfile:
-    path: '/etc/bashrc'
-    line: 'export PATH=$PATH:{{ java.dest }}{{ java.dirname }}/bin'
-    create: 'yes'
-
-- name: add JAVA_HOME={{ java.dest }}{{ java.dirname }}
-  lineinfile:
-    path: '/etc/bashrc'
-    line: 'export JAVA_HOME={{ java.dest }}{{ java.dirname }}'
-    create: 'yes'
+- name: yum install java
+  yum:
+    name: 'java'
+    state: 'latest' 
+  when: not ( _java_oracle is defined and _java_oracle|bool )

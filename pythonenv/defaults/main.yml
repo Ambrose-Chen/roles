@@ -1,9 +1,8 @@
 ---
 # defaults file for pythonenv
 
-pythonenv:
-  packages:
+_pythonenv_packages:
     - 'python36'
     - 'python36-devel'
     - 'python36-pip'
-  pips: 'ansible autopep8 django ipython sklearn pandas pylint virtualenv'
+_pythonenv_pips: 'ansible autopep8 django ipython sklearn pandas pylint virtualenv'

@@ -1,2 +1,4 @@
 ---
 # defaults file for docce
+
+_docce_repo: 'https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo'

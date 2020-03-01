@@ -3,14 +3,21 @@
 
 
 _mysql_version: 5
-#_mysql_repo_file:
-#    - 'mysql-community'
-#    - 'mysql-community-source'
+
+_mysql_repo_file:
+    - 'mysql-community'
+    - 'mysql-community-source'
+
+_mysql_repoid_i: 'mysql57-community'
 _mysql_repoid: 'mysql57-community7'
+
 _mysql_repo_rpm:
     - 'mysql-community-server'
+
 _mysql_remote: yes
+
 _mysql_password: 'ROOT@cka.cloud'
+
 _mysql_my_cnf:
   - 'lower_case_table_names=1'
   - 'max_allowed_packet=20M'

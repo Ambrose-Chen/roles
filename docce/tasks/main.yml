@@ -3,13 +3,18 @@
 
 - name: add docker-ce repo file
   get_url:
-    url: 'https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo'
+    url: '{{ _docce_repo }}'
     dest: '/etc/yum.repos.d/docker-ce.repo'
+  when: internet is defined and internet |bool and _docce_repo is defined
 
-- name: install docker-ce
+- name: install docker-ce and docker-compose
   yum:
-    name: 'docker-ce'
+    name: '{{ item }}'
     state: 'latest'
+    enablerepo: 'docker-ce-stable'
+  loop:
+    - 'docker-ce'
+    - 'docker-compose'
 
 - name: enable and start docker service
   systemd:

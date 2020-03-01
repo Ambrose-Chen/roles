@@ -3,67 +3,67 @@
 
 - block:
 
-    - name: 
+    - name:  download nginx package
       get_url:
-        url: '{{ _nginx_repo_url }}'
+        url: '{% if internet %}{{ _nginx_repo_url_i }}{% else %}{{ _nginx_repo_url }}{% endif %}'
         dest: '/tmp/{{ _nginx_repo_name }}'
-    - name: Extract /tmp/{{ _nginx_repo_name }} into {{ _nginx_dest }}
+    - name: Extract /tmp/{{ _nginx_repo_name }} into /tmp
       unarchive:
         src: '/tmp/{{ _nginx_repo_name }}'
-        dest: '{{ _nginx_dest }}'
+        dest: '/tmp'
         remote_src: yes
 
-  when: _nginx_repo_url is defined
+  when: _nginx_repo_url is defined and _nginx_repo_url_i is defined and not ( local is defined and local|bool )
 
-- name:
+- name: unarchive local package
   unarchive:
     src: '{{ _nginx_src }}'
-    dest: '{{ _nginx_dest }}'
-  when: _nginx_src is defined
+    dest: '/tmp'
+  when: _nginx_local_src is defined and local is defined and local|bool
 
 - name:
   lineinfile:
-    path: '{{ _nginx_dest }}/{{ _nginx_dirname }}/src/core/nginx.h'
-    line: '#define nginx_version      {{ _nginx_version }}'
+    path: '/tmp/{{ _nginx_dirname }}/src/core/nginx.h'
+    line: '#define nginx_version      {{ _nginx_ren_version }}'
     regexp: '#define nginx_version.*'
-  when: _nginx_version is defined
+  when: _nginx_ren_version is defined
 
 - name:
   lineinfile:
-    path: '{{ _nginx_dest }}/{{ _nginx_dirname }}/src/core/nginx.h'
-    line: '#define NGINX_VERSION      "{{ _nginx_VERSION }}"'
+    path: '/tmp/{{ _nginx_dirname }}/src/core/nginx.h'
+    line: '#define NGINX_VERSION      "{{ _nginx_ren_VERSION }}"'
     regexp: '#define NGINX_VERSION.*'
-  when: _nginx_VERSION is defined
+  when: _nginx_ren_VERSION is defined
 
 - name:
   lineinfile:
-    path: '{{ _nginx_dest }}/{{ _nginx_dirname }}/src/core/nginx.h'
-    line: '#define NGINX_VER          "{{ _nginx_VER }}/" NGINX_VERSION'
+    path: '/tmp/{{ _nginx_dirname }}/src/core/nginx.h'
+    line: '#define NGINX_VER          "{{ _nginx_ren_VER }}/" NGINX_VERSION'
     regexp: '#define NGINX_VER .*'
-  when: _nginx_VER is defined
+  when: _nginx_ren_VER is defined
 
 - name:
   lineinfile:
-    path: '{{ _nginx_dest }}/{{ _nginx_dirname }}/src/core/nginx.h'
-    line: '#define NGINX_VAR          "{{ _nginx_VAR }}"'
+    path: '/tmp/{{ _nginx_dirname }}/src/core/nginx.h'
+    line: '#define NGINX_VAR          "{{ _nginx_ren_VAR }}"'
     regexp: '#define NGINX_VAR .*'
-  when: _nginx_VAR is defined
+  when: _nginx_ren_VAR is defined
 
 - name:
   lineinfile:
-    path: '{{ _nginx_dest }}/{{ _nginx_dirname }}/src/http/ngx_http_header_filter_module.c'
-    line: 'static u_char ngx_http_server_string[] = "Server: {{ _nginx_VER }}" CRLF;'
+    path: '/tmp/{{ _nginx_dirname }}/src/http/ngx_http_header_filter_module.c'
+    line: 'static u_char ngx_http_server_string[] = "Server: {{ _nginx_ren_VER }}" CRLF;'
     regexp: '.*Server: nginx.*'
-  when: _nginx_VER is defined
+  when: _nginx_ren_VER is defined
 
 - name:
   lineinfile:
-    path: '{{ _nginx_dest }}/{{ _nginx_dirname }}/src/http/ngx_http_special_response.c'
-    line: '"<hr><center>{{ _nginx_VER }}</center>" CRLF'
+    path: '/tmp/{{ _nginx_dirname }}/src/http/ngx_http_special_response.c'
+    line: '"<hr><center>{{ _nginx_ren_VER }}</center>" CRLF'
     regexp: '.*>nginx<.*'
-  when: _nginx_VER is defined
+  when: _nginx_ren_VER is defined
 
-- name:
+- name: add ng_home to path
   lineinfile:
     path: '/etc/bashrc'
     line: 'PATH=$PATH:/opt/nginx/sbin'
@@ -71,7 +71,7 @@
 
 - name:
   shell: |
-    cd {{ _nginx_dest }}/{{ _nginx_dirname }};
+    cd /tmp/{{ _nginx_dirname }};
     ./configure --prefix=/opt/nginx;
     make;
     make install;

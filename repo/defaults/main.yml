@@ -8,6 +8,7 @@ repo:
     - 'rabbitmq-server-reposync'
     - 'docker-ce-reposync'
     - 'google-chrome-reposync'
+    - 'kubernetes-reposync'
   
   el6:
     - 'base6'
@@ -32,6 +33,7 @@ repo:
     - 'epel7'
     - 'extras7'
     - 'google-chrome'
+    - 'kubernetes'
     - 'storage-c-n7'
     - 'updates7'
     - 'mysql57-community7'

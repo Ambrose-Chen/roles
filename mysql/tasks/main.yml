@@ -5,12 +5,12 @@
     src: '{{ item }}.repo'
     dest: '/etc/yum.repos.d/{{ item }}.repo'
   loop: '{{ _mysql_repo_file }}'
-  when: _mysql_repo_file is defined
+  when: internet is defined and internet|bool and _mysql_repo_file is defined
 
 - yum:
     name: '{{ item }}'
     state: 'latest'
-    enablerepo: '{{ _mysql_repoid }}'
+    enablerepo: '{% if internet %}{{ _mysql_repoid_i }}{% else %}{{ _mysql_repoid }}{% endif %}'
   loop: '{{ _mysql_repo_rpm }}'
 
 - lineinfile:

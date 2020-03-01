@@ -1,25 +1,25 @@
 ---
 # tasks file for git
 
-- name: Extract {{ _git_src }} into {{ _git_dest }}
+- name: Extract {{ _git_local_src }} into {{ _git_dest }}
   unarchive:
-    src: '{{ _git_src }}'
+    src: '{{ _git_local_src }}'
     dest: '{{ _git_dest }}'
-  when: _git_src is defined
+  when: local is defined and local|bool and _git_local_src is defined
 
 - block:
-    - name: get_url {{ _git_src }} into /tmp
+    - name: get_url {% if internet %}{{ _git_repo_url_i }}{% else %}{{ _git_repo_url }}{% endif %} into /tmp
       get_url:
-        url: '{{ _git_repo_url }}'
-        dest: '/tmp/{{ _git_name }}'
+        url: '{% if internet %}{{ _git_repo_url_i }}{% else %}{{ _git_repo_url }}{% endif %}'
+        dest: '/tmp/{{ _git_repo_name }}'
 
-    - name: Extract {{ _git_name }}
+    - name: Extract {{ _git_repo_name }}
       unarchive:
-        src: '/tmp/{{ _git_name }}'
+        src: '/tmp/{{ _git_repo_name }}'
         dest: '{{ _git_dest }}'
         remote_src: yes
 
-  when: _git_repo_url is defined and _git_name is defined
+  when: _git_repo_url_i is defined and _git_repo_url is defined
 
 - name: build 
   shell: |
