@@ -1,2 +1,51 @@
 ---
 # defaults file for hadoop
+
+_hadoop_version: 'hadoop-3.2.1'
+_hadoop_repo_url: 'http://192.168.110.100/software/hadoop/{{ _hadoop_version }}.tar.gz'
+_hadoop_repo_url_i: 'https://mirrors.aliyun.com/apache/hadoop/common/{{ _hadoop_version }}/{{ _hadoop_version }}.tar.gz'
+_hadoop_repo_name: '{{ _hadoop_version }}.tar.gz'
+_hadoop_dest: '/opt'
+_hadoop_dirname: '{{ _hadoop_version }}'
+_hadoop_conf:
+  - slaves
+  - hadoop-env.sh
+  - core-site.xml
+  - hdfs-site.xml
+  - mapred-site.xml
+  - yarn-site.xml
+
+_hadoop_hadoop_env:
+  HDFS_NAMENODE_USER: root
+  HDFS_DATANODE_USER: root
+  HDFS_SECONDARYNAMENODE_USER: root
+  YARN_RESOURCEMANAGER_USER: root
+  YARN_NODEMANAGER_USER: root
+
+_hadoop_core_site:
+  - name: 'fs.defaultFS'
+    value: 'hdfs://master:9000'
+  - name: 'hadoop.tmp.dir'
+    value: '/home/{{ _hadoop_version }}/tmp'
+
+_hadoop_hdfs_site:
+  - name: 'dfs.replication'
+    value: '3'
+  - name: 'dfs.permissions.enabled'
+    value: 'false'
+  - name: 'dfs.namenode.http-address'
+    value: 'master:50070'
+  - name: 'dfs.namenode.secondary.http-address'
+    value: 'slave1:50070'
+
+_hadoop_mapred_site:
+  - name: 'mapreduce.framework.name'
+    value: 'yarn'
+
+_hadoop_yarn_site:
+  - name: 'yarn.resourcemanager.hostname'
+    value: 'master'
+  - name: 'yarn.nodemanager.pmem-check-enabled'
+    value: 'false'
+  - name: 'yarn.nodemanager.vmem-check-enabled'
+    value: 'false'

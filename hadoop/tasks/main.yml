@@ -3,9 +3,9 @@
 
 - block:
     
-    - name: get_url {{ _hadoop_repo_url }}
+    - name: get_url {% if internet %}{{ _hadoop_repo_url_i }}{% else %}{{ _hadoop_repo_url }}{% endif %}
       get_url:
-        url: '{{ _hadoop_repo_url }}'
+        url: '{% if internet %}{{ _hadoop_repo_url_i }}{% else %}{{ _hadoop_repo_url }}{% endif %}'
         dest: '/tmp/{{ _hadoop_repo_name }}'
 
     - name: 'Extract /tmp/{{ _hadoop_repo_name }}'
@@ -14,7 +14,7 @@
         dest: '{{ _hadoop_dest }}'
         remote_src: yes
 
-  when: _hadoop_repo_url is defined
+  when: _hadoop_repo_url is defined and _hadoop_repo_url_i is defined
 
 - name: hadoop conf
   template:

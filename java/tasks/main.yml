@@ -35,8 +35,18 @@
         create: 'yes'
   when: _java_oracle is defined and _java_oracle|bool
 
-- name: yum install java
-  yum:
-    name: 'java'
-    state: 'latest' 
+- block:
+    - name: yum install java
+      yum:
+        name: '{{ item }}'
+        state: 'latest'
+      loop:
+        - 'java'
+        - 'java-devel'
+        - 'java-devel-debug'
+    - name: add JAVA_HOME=/usr
+      lineinfile:
+        path: '/etc/bashrc'
+        line: 'export JAVA_HOME=/usr'
+        create: 'yes'
   when: not ( _java_oracle is defined and _java_oracle|bool )
