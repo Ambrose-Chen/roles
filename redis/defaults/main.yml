@@ -1,13 +1,15 @@
 ---
 # defaults file for redis
 
-_redis_repo_url: 'http://192.168.110.100/software/redis/redis-5.0.7.tar.gz'
-_redis_name: 'redis-5.0.7.tar.gz'
-_redis_dirname: 'redis-5.0.7'
+_redis_version: 'redis-5.0.7'
+_redis_repo_url: 'http://192.168.110.100/software/redis/{{ _redis_version }}.tar.gz'
+_redis_repo_url_i: 'http://download.redis.io/releases/{{ _redis_version }}.tar.gz'
+_redis_repo_name: '{{ _redis_version }}.tar.gz'
+_redis_dirname: '{{ _redis_version }}'
 _redis_dest: '/opt'
-_redis_passwd: 'SF_123.com'
-_redis_external: yes
-_redis_cluster_mode: yes
+_redis_password: 'password'
+_redis_external: no
+_redis_cluster_mode: no
 _redis_port:
   - '6379'
   - '6378'

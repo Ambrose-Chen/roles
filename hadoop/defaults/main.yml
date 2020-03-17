@@ -1,12 +1,12 @@
 ---
 # defaults file for hadoop
 
-_hadoop_version: 'hadoop-3.2.1'
-_hadoop_repo_url: 'http://192.168.110.100/software/hadoop/{{ _hadoop_version }}.tar.gz'
-_hadoop_repo_url_i: 'https://mirrors.aliyun.com/apache/hadoop/common/{{ _hadoop_version }}/{{ _hadoop_version }}.tar.gz'
-_hadoop_repo_name: '{{ _hadoop_version }}.tar.gz'
+_hadoop_version: '3.2.1'
+_hadoop_repo_url: 'http://192.168.110.100/software/hadoop/hadoop-{{ _hadoop_version }}.tar.gz'
+_hadoop_repo_url_i: 'https://mirrors.aliyun.com/apache/hadoop/common/hadoop-{{ _hadoop_version }}/hadoop-{{ _hadoop_version }}.tar.gz'
+_hadoop_repo_name: 'hadoop-{{ _hadoop_version }}.tar.gz'
 _hadoop_dest: '/opt'
-_hadoop_dirname: '{{ _hadoop_version }}'
+_hadoop_dirname: 'hadoop-{{ _hadoop_version }}'
 _hadoop_conf:
   - slaves
   - hadoop-env.sh
@@ -26,7 +26,11 @@ _hadoop_core_site:
   - name: 'fs.defaultFS'
     value: 'hdfs://master:9000'
   - name: 'hadoop.tmp.dir'
-    value: '/home/{{ _hadoop_version }}/tmp'
+    value: '/home/hadoop-{{ _hadoop_version }}/tmp'
+  - name: 'hadoop.proxyuser.root.groups'
+    value: '*'
+  - name: 'hadoop.proxyuser.root.hosts'
+    value: '*'
 
 _hadoop_hdfs_site:
   - name: 'dfs.replication'
@@ -41,6 +45,12 @@ _hadoop_hdfs_site:
 _hadoop_mapred_site:
   - name: 'mapreduce.framework.name'
     value: 'yarn'
+  - name: 'yarn.app.mapreduce.am.env'
+    value: 'HADOOP_MAPRED_HOME={{ _hadoop_dest }}/hadoop-{{ _hadoop_version }}/'
+  - name: 'mapreduce.map.env'
+    value: 'HADOOP_MAPRED_HOME={{ _hadoop_dest }}/hadoop-{{ _hadoop_version }}/'
+  - name: 'mapreduce.reduce.env'
+    value: 'HADOOP_MAPRED_HOME={{ _hadoop_dest }}/hadoop-{{ _hadoop_version }}/'
 
 _hadoop_yarn_site:
   - name: 'yarn.resourcemanager.hostname'
@@ -49,3 +59,7 @@ _hadoop_yarn_site:
     value: 'false'
   - name: 'yarn.nodemanager.vmem-check-enabled'
     value: 'false'
+  - name: 'yarn.nodemanager.aux-services'
+    value: 'mapreduce_shuffle'
+  - name: 'yarn.nodemanager.aux-services.mapreduce_shuffle.class'
+    value: 'org.apache.hadoop.mapred.ShuffleHandler'

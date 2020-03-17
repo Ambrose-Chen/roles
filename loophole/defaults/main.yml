@@ -1,2 +1,5 @@
 ---
 # defaults file for loophole
+
+_loophole_ssh_username: 'redhat'
+_loophole_ssh_password: "{{ 'redhat' | password_hash('sha512', 'redhat') }}"

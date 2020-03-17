@@ -1,14 +1,14 @@
 ---
 # tasks file for loophole
 #
-- name: '开放重要文件属性'
+- name: 'open important file attribute settings'
   shell: |
     chattr -i /etc/passwd;
     chattr -i /etc/shadow;
     chattr -i /etc/group;
     chattr -i /etc/gshadow;
 
-- name: '检查是否禁止匿名用户登录FTP--禁止匿名VSFTP用户登录'
+- name: 'Check if anonymous users are not allowed to log in to FTP--Disable anonymous VSFTP user login'
   replace:
     path: '{{ item }}'
     regexp: '^anonymous_enable=.*$'
@@ -18,30 +18,24 @@
     - '/etc/vsftpd/vsftpd.conf'
   ignore_errors: yes
 
-- name: '检查是否禁止匿名用户登录FTP--禁止匿名WU-FTP用户登录'
+- name: 'Check if anonymous users are not allowed to log in to FTP--Disable anonymous WU-FTP user login'
   user:
     name: 'ftp'
     state: 'absent'
 
-- name: '检查用户目录缺省访问权限设置'
+- name: 'Check user directory default access settings'
   replace:
     path: '/etc/login.defs'
     regexp: '^UMASK[\s]+[0-9]+'
     replace: 'UMASK    027'
 
-- name: '检查重要文件属性设置'
-  shell: |
-    chattr +i /etc/passwd;
-    chattr +i /etc/shadow;
-    chattr +i /etc/group;
-    chattr +i /etc/gshadow;
 
-- name: '检查是否安装snmp服务'
+- name: 'Check if snmp service is installed'
   yum:
     name: 'net-snmp'
     state: 'absent'
 
-- name: '检查用户umask设置'
+- name: 'Check user umask settings'
   replace:
     path: '{{ item }}'
     regexp: 'umask[\s]*[0-9]*'
@@ -53,7 +47,7 @@
     - '/etc/profile'
 
 - block:
-    - name: '检查重要目录或文件权限设置--0750'
+    - name: 'Check important directory or file permission settings--0750'
       file:
         path: '{{ item }}'
         mode: '0750'
@@ -67,7 +61,13 @@
         - '/etc/rc5.d'
         - '/etc/rc6.d'
         - '/etc/rc.d/init.d'
-    - name: '检查重要目录或文件权限设置--0644'
+    - name: 'Check important directory or file permission settings--0000'
+      file:
+        path: '{{ item }}'
+        mode: '0000'
+      loop:
+        - '/etc/shadow'
+    - name: 'Check important directory or file permission settings--0644'
       file:
         path: '{{ item }}'
         mode: '0644'
@@ -75,7 +75,7 @@
         - '/etc/passwd'
         - '/etc/group'
         - '/etc/services'
-    - name: '检查重要目录或文件权限设置--0600'
+    - name: 'Check important directory or file permission settings / Check if the log file is not globally writable --0600'
       file:
         path: '{{ item }}'
         mode: '0600'
@@ -88,39 +88,47 @@
         - '/etc/lilo.conf'
         - '/etc/grub2.cfg'
         - '/boot/grub2/grub.cfg'
+        - '/var/log/cron'
+        - '/var/log/secure'
+        - '/var/log/messages'
+        - '/var/log/maillog'
+        - '/var/log/boot.log'
+        - '/var/log/mail'
+        - '/var/log/localmessages'
+        - '/var/log/spooler'
   ignore_errors: yes
 
-- name: '检查是否设置口令生存周期'
+- name: 'Check if the password lifetime is set'
   replace:
     path: '/etc/login.defs'
     regexp: 'PASS_MAX_DAYS[\s]+[0-9]+'
     replace: 'PASS_MAX_DAYS   90'
 
-- name: '检查口令最小长度'
+- name: 'Check minimum password length'
   replace:
     path: '/etc/login.defs'
     regexp: 'PASS_MIN_LEN[\s]+[0-9]+'
     replace: 'PASS_MIN_LEN   6'
 
-- name: '检查是否设置口令更改最小间隔天数'
+- name: 'Check if the minimum number of days between password changes is set'
   replace:
     path: '/etc/login.defs'
     regexp: 'PASS_MIN_DAYS[\s]+[0-9]+'
     replace: 'PASS_MIN_DAYS   6'
 
-- name: '检查是否设置口令过期前警告天数'
+- name: 'Check if warning days are set before password expires'
   replace:
     path: '/etc/login.defs'
     regexp: 'PASS_WARN_AGE[\s]+[0-9]+'
     replace: 'PASS_WARN_AGE   30'
 
-- name: '检查密码重复使用次数限制'
+- name: 'Check password reuse limit'
   replace:
     path: '/etc/pam.d/system-auth'
     regexp: '(password[\s]+sufficient((?!remember).)*$)'
     replace: '\1 remember=5'
 
-- name: '检查系统内核参数配置'
+- name: 'Check system kernel parameter configuration'
   sysctl:
     name: '{{ item.name }}'
     value: '{{ item.value }}'
@@ -139,18 +147,24 @@
     - name: 'net.ipv4.ip_forward'
       value: '0'
 
-- name: '检查是否设置命令行界面超时退出'
+- name: 'Check if the command line interface is set to exit overtime'
   lineinfile:
     path: '/etc/profile'
     line: 'export TMOUT=600'
 
-- name: '检查历史命令设置'
+- name: 'Check the number of retained history commands'
+  replace:
+    path: '/etc/profile'
+    regexp: 'HISTSIZE=[0-9]+'
+    replace: 'HISTSIZE=5'
+
+- name: 'Check the log file size of the keep history command'
   replace:
     path: '/etc/profile'
     regexp: 'HISTFILESIZE=[0-9]+'
     replace: 'HISTFILESIZE=5'
 
-- name: '检查是否禁止root用户登录FTP'
+- name: 'Check if root user is not allowed to log in to FTP'
   lineinfile:
     path: '{{ item }}'
     line: 'root'
@@ -159,7 +173,7 @@
     - '/etc/ftpusers'
   ignore_errors: yes
 
-- name: '检查系统core dump设置'
+- name: 'Check system core dump settings'
   lineinfile:
     path: '/etc/security/limits.conf'
     line: '{{ item }}'
@@ -167,7 +181,7 @@
     - '*    soft    core    0'
     - '*    hard    core    0'
 
-- name: '检查是否关闭IP伪装和绑定多IP功能--检查是否配置关闭多IP绑定'
+- name: 'Check if IP masquerading and multi-IP binding are turned off--Check if multi-IP binding is disabled'
   replace:
     path: '/etc/host.conf'
     regexp: 'multi.*'
@@ -177,7 +191,7 @@
     line: 'multi off'
     create: yes
 
-- name: '检查是否关闭IP伪装和绑定多IP功能--检查是否配置关闭IP伪装'
+- name: 'Check if IP masquerading and multi-IP binding are turned off--Check if IP masquerading is disabled'
   replace:
     path: '/etc/host.conf'
     regexp: 'nospoof.*'
@@ -187,13 +201,13 @@
     line: 'nospoof on'
     create: yes
 
-- name: '检查设备密码复杂度策略'
+- name: 'Check device password complexity policy'
   lineinfile:
     path: '/etc/pam.d/system-auth'
     insertbefore: '.*pam_pwquality.so.*'
     line: 'password    requisite     pam_cracklib.so ucredit=-1 lcredit=-1 dcredit=-1'
 
-- name: ''
+- name: 'Check if /etc/aliases disables unnecessary aliases'
   lineinfile:
     path: '/etc/aliases'
     regexp: '(^{{ item }}.*)'
@@ -212,7 +226,7 @@
     - 'root'
   ignore_errors: yes
 
-- name: ''
+- name: 'Check if /etc/mail/aliases disables unnecessary aliases'
   lineinfile:
     path: '/etc/mail/aliases'
     regexp: '(^{{ item }}.*)'
@@ -230,3 +244,123 @@
     - 'decode'
     - 'root'
   ignore_errors: yes
+
+- name: 'Check whether the system trust mechanism is turned off'
+  shell: |
+    find / -maxdepth 3 -name hosts.equiv -exec mv {} {}.bak \;
+    find / -maxdepth 3 -type f -name .rhosts -exec mv {} {}.bak \;
+    find / -maxdepth 3 -type f -name .netrc -exec mv {} {}.bak \;
+
+- name: 'Restrict the attributes of uploaded files for FTP users after login / Check if the directory that FTP users can access after login is restricted'
+  lineinfile:
+    path: '/etc/vsftpd.conf'
+    line: '{{ item }}'
+  loop:
+    - 'write_enable=YES'
+    - 'ls_recurse_enable=YES'
+    - 'local_umask=022'
+    - 'anon_umask=022'
+    - 'chroot_local_user=YES'
+  ignore_errors: yes
+
+- name: 'Check if important files have suid and sgid permissions'
+  shell: |
+    find /usr/bin/chage /usr/bin/gpasswd /usr/bin/wall /usr/bin/chfn /usr/bin/chsh /usr/bin/newgrp /usr/bin/write /usr/sbin/usernetctl /usr/sbin/traceroute /bin/mount /bin/umount /bin/ping /sbin/netreport -type f -perm /6000 -exec chmod a-s {} \; 2>/dev/null | cat
+
+- name: 'For devices using IP protocol for remote maintenance, telnet protocol should be prohibited'
+  lineinfile:
+    path: '/etc/services'
+    regexp: '(^telnet\s*23\/tcp)'
+    line: '#  \1'
+    backrefs: yes
+
+- name: 'Check whether the remote log function is configured'
+  lineinfile:
+    path: '/etc/rsyslog.conf'
+    line: '*.* @192.168.0.1'
+
+- name: 'Check if user actions on the device are recorded'
+  block:
+
+    - name: 'yum install psacct'
+      yum:
+        name: 'psacct'
+        state: 'latest'
+    - name: 'touch /var/log/pacct'
+      file:
+        path: '/var/log/pacct'
+        state: 'touch'
+        mode: '0600'
+    - name: 'accton /var/log/pacct'
+      shell: |
+        accton /var/log/pacct
+
+- name: 'Check security event log configuration'
+  block:
+    - name: 'touch /var/adm/messages'
+      file:
+        path: '/var/adm/messages'
+        state: 'touch'
+        mode: '666'
+
+    - name: 'Check if rsyslog is configured with security event log'
+      lineinfile:
+        path: '/etc/rsyslog.conf'
+        line: '*.err;kern.debug;daemon.notice /var/adm/messages'
+      notify:
+        restart rsyslog
+
+- name: 'Check account authentication failure limit (1/2)'
+  lineinfile:
+    path: '/etc/pam.d/sshd'
+    insertbefore: '-auth      optional     pam_reauthorize.so prepare'
+    line: 'account required pam_tally2.so'
+- name: 'Check account authentication failure limit (2/2)'
+  lineinfile:
+    path: '/etc/pam.d/sshd'
+    insertbefore: 'account required pam_tally2.so'
+    line: 'auth required pam_tally2.so deny=5 unlock_time=600'
+
+- name: 'Check if the remote login IP range is restricted allow'
+  lineinfile:
+    path: '/etc/hosts.allow'
+    line: 'all:all:allow'
+- name: 'Check if the remote login IP range is restricted deny'
+  lineinfile:
+    path: '/etc/hosts.deny'
+    line: 'all:all'
+
+- name: 'Check if you use PAM authentication module to prevent users su outside the wheel group from being root'
+  lineinfile:
+    path: '/etc/pam.d/su'
+    regexp: '^\#.*pam_wheel.so\ use_uid'
+    line: 'auth           required        pam_wheel.so use_uid'
+
+- name: 'useradd -G wheel {{ _loophole_ssh_username }}'
+  user:
+    name: '{{ _loophole_ssh_username }}'
+    state: 'present'
+    groups: 'wheel'
+    password: '{{ _loophole_ssh_password }}'
+
+- name: 'Check whether root telnet login is prohibited'
+  lineinfile:
+    path: '/etc/pam.d/login'
+    line: 'auth required pam_securetty.so'
+
+- name: 'Check whether root ssh login is prohibited'
+  lineinfile:
+    path: '/etc/ssh/sshd_config'
+    regexp: '^\#*PermitRootLogin.*'
+    line: 'PermitRootLogin no'
+    backrefs: yes
+  notify:
+    restart sshd
+  
+
+- name: 'Check important file attribute settings'
+  shell: |
+    chattr +i /etc/passwd;
+    chattr +i /etc/shadow;
+    chattr +i /etc/group;
+    chattr +i /etc/gshadow;

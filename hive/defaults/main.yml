@@ -1,2 +1,46 @@
 ---
 # defaults file for hive
+
+
+_hive_version: '3.1.2'
+_hive_repo_url: 'http://192.168.110.100/software/hive/apache-hive-{{ _hive_version }}-bin.tar.gz'
+_hive_repo_url_i: 'https://mirrors.aliyun.com/apache/hive/hive-{{ _hive_version }}/apache-hive-{{ _hive_version }}-bin.tar.gz'
+_hive_repo_name: 'apache-hive-{{ _hive_version }}-bin.tar.gz'
+_hive_dirname: 'apache-hive-{{ _hive_version }}-bin'
+_hive_dest: '/opt'
+_hive_conf:
+  - 'hive-site.xml'
+
+_mysql_password: 'ROOT@cka.cloud'
+
+_hive_hive_site:
+  - name: 'javax.jdo.option.ConnectionURL'
+    value: 'jdbc:mysql://master:3306/hive?createDatabaseIfNotExist=true'
+  - name: 'javax.jdo.option.ConnectionDriverName'
+    value: 'com.mysql.jdbc.Driver'
+  - name: 'javax.jdo.PersistenceManagerFactoryClass'
+    value: 'org.datanucleus.api.jdo.JDOPersistenceManagerFactory'
+  - name: 'javax.jdo.option.DetachAllOnCommit'
+    value: 'true'
+  - name: 'javax.jdo.option.NonTransactionalRead'
+    value: 'true'
+  - name: 'javax.jdo.option.ConnectionUserName'
+    value: 'root'
+  - name: 'javax.jdo.option.ConnectionPassword'
+    value: '{{ _mysql_password }}'
+  - name: 'javax.jdo.option.Multithreaded'
+    value: 'true'
+  - name: 'datanucleus.connectionPoolingType'
+    value: 'BoneCP'
+  - name: 'hive.metastore.warehouse.dir'
+    value: '/user/hive/warehouse'
+  - name: 'hive.server2.thrift.port'
+    value: '10000'
+  - name: 'hive.server2.thrift.bind.host'
+    value: 'master'
+  - name: 'hive.metastore.local'
+    value: 'false'
+  - name: 'hive.metastore.uris'
+    value: 'thrift://master:9083'
+  - name: 'hbase.Zookeeper.quorum'
+    value: 'master, slave1, slave2, slave3, slave4'

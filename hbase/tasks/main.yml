@@ -3,9 +3,9 @@
 
 - block:
     
-    - name: get_url {{ _hbase_repo_url }}
+    - name: get_url {% if internet %}{{ _hbase_repo_url_i }}{% else %}{{ _hbase_repo_url }}{% endif %}
       get_url:
-        url: '{{ _hbase_repo_url }}'
+        url: '{% if internet %}{{ _hbase_repo_url_i }}{% else %}{{ _hbase_repo_url }}{% endif %}'
         dest: '/tmp/{{ _hbase_repo_name }}'
 
     - name: 'Extract /tmp/{{ _hbase_repo_name }}'
@@ -14,7 +14,7 @@
         dest: '{{ _hbase_dest }}'
         remote_src: yes
 
-  when: _hbase_repo_url is defined
+  when: _hbase_repo_url is defined and _hbase_repo_url_i is defined
 
 - name: hbase conf
   template:

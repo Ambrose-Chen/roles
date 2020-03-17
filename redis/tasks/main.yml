@@ -3,18 +3,18 @@
 #
 - block:
 
-    - name: get url {{ _redis_repo_url }} into /tmp/{{ _redis_name }}
+    - name: get url {% if internet %}{{ _redis_repo_url_i }}{% else %}{{ _redis_repo_url }}{% endif %} into /tmp/{{ _redis_repo_name }}
       get_url:
-        url: '{{ _redis_repo_url }}'
-        dest: '/tmp/{{ _redis_name }}'
+        url: '{% if internet %}{{ _redis_repo_url_i }}{% else %}{{ _redis_repo_url }}{% endif %}'
+        dest: '/tmp/{{ _redis_repo_name }}'
     
-    - name: Extract /tmp/{{ _redis_name }} into {{ _redis_dest }}
+    - name: Extract /tmp/{{ _redis_repo_name }} into {{ _redis_dest }}
       unarchive:
-        src: '/tmp/{{ _redis_name }}'
+        src: '/tmp/{{ _redis_repo_name }}'
         dest: '{{ _redis_dest }}'
         remote_src: yes
 
-  when: _redis_repo_url is defined
+  when: _redis_repo_url is defined and _redis_repo_url_i is defined
 
 - shell: |
     cd {{ _redis_dest }}/{{ _redis_dirname }};
@@ -50,7 +50,7 @@
   replace:
     path: '/etc/redis/{{ item }}.conf'
     regexp: '^# requirepass .*'
-    replace: 'requirepass {{ _redis_passwd }}'
+    replace: 'requirepass {{ _redis_password }}'
   loop: '{{ _redis_port }}'
 
 - name: daemonize
@@ -95,7 +95,7 @@
     line: '\1 {{ ansible_default_ipv4.address }}'
     backrefs: yes
   loop: '{{ _redis_port }}'
-  when: _redis_external|bool
+  when: _redis_external is defined and _redis_external|bool
 
 - block:
 
@@ -106,4 +106,4 @@
         replace: 'dbfilename {{ item }}.rdb'
       loop: '{{ _redis_port }}'
 
-  when: _redis_cluster_mode|bool
+  when: _redis_cluster_mode is defined and _redis_cluster_mode|bool

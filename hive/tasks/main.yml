@@ -43,3 +43,9 @@
     path: '/etc/bashrc'
     line: 'export HIVE_HOME={{ _hive_dest }}/{{ _hive_dirname }}'
     create: yes
+
+- name: cp start-hive.sh
+  copy:
+    src: 'start-hive.sh'
+    dest: '{{ _hive_dest }}/{{ _hive_dirname }}/bin/'
+    mode: '0755'

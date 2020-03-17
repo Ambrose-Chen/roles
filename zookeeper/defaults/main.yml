@@ -1,14 +1,12 @@
 ---
 # defaults file for zookeeper
 
-_zookeeper_repo_url: 'http://192.168.110.100/software/zookeeper/apache-zookeeper-3.5.6-bin.tar.gz'
-_zookeeper_repo_name: 'apache-zookeeper-3.5.6-bin.tar.gz'
+_zookeeper_version: '3.5.6'
+_zookeeper_repo_url: 'http://192.168.110.100/software/zookeeper/apache-zookeeper-{{ _zookeeper_version }}-bin.tar.gz'
+_zookeeper_repo_url_i: 'https://mirrors.aliyun.com/apache/zookeeper/zookeeper-{{ _zookeeper_version }}/apache-zookeeper-{{ _zookeeper_version }}-bin.tar.gz'
+_zookeeper_repo_name: 'apache-zookeeper-{{ _zookeeper_version }}-bin.tar.gz'
 
 _zookeeper_dest: '/opt'
-_zookeeper_dirname: 'apache-zookeeper-3.5.6-bin'
+_zookeeper_dirname: 'apache-zookeeper-{{ _zookeeper_version }}-bin'
 
-
-
-_zookeeper_zoo_dataDir: '/opt/apache-zookeeper-3.5.6-bin/data/'
-
-
+_zookeeper_zoo_dataDir: '{{ _zookeeper_dest }}/{{ _zookeeper_version }}/data/'

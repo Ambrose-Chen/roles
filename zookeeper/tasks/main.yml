@@ -3,9 +3,9 @@
 
 - block:
 
-    - name: get_url {{ _zookeeper_repo_url }}
+    - name: get_url {% if internet %}{{ _zookeeper_repo_url_i }}{% else %}{{ _zookeeper_repo_url }}{% endif %}
       get_url:
-        url: '{{ _zookeeper_repo_url }}'
+        url: '{% if internet %}{{ _zookeeper_repo_url_i }}{% else %}{{ _zookeeper_repo_url }}{% endif %}'
         dest: '/tmp/{{ _zookeeper_repo_name }}'
 
     - name: 'Extract /tmp/{{ _zookeeper_repo_name }}'
@@ -14,7 +14,7 @@
         dest: '{{ _zookeeper_dest }}'
         remote_src: yes
 
-  when: _zookeeper_repo_url is defined
+  when: _zookeeper_repo_url is defined and _zookeeper_repo_url_i is defined
 
 - name:
   template:
