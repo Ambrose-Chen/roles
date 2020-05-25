@@ -6,9 +6,12 @@
   register: rsa
   ignore_errors: True
 
+- debug:
+    msg: '{{ rsa }}'
+
 - shell:
     ssh-keygen -f ~/.ssh/id_rsa -N ''
-  when: rsa |failed
+  when: rsa.failed |bool
 
 
 - slurp:

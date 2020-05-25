@@ -47,7 +47,7 @@
       when: inventory_hostname == 'slave1'
 
 #    - yum:
-#        name: 'http://192.168.110.100/software/scala/scala-2.13.1.rpm'
+#        name: 'http://{{ repoid }}/software/scala/scala-2.13.1.rpm'
 #        state: 'present'
     - import_role:
         name: spark

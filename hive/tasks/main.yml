@@ -2,9 +2,9 @@
 # tasks file for hive
 
 - block:
-    - name: get_url {{ _hive_repo_url }}
+    - name: get_url {% if internet %}{{ _hive_repo_url_i }}{% else %}{{ _hive_repo_url }}{% endif %}
       get_url:
-        url: '{{ _hive_repo_url }}'
+        url: '{% if internet %}{{ _hive_repo_url_i }}{% else %}{{ _hive_repo_url }}{% endif %}'
         dest: '/tmp/{{ _hive_repo_name }}'
 
     - name: 'Extract /tmp/{{ _hive_repo_name }}'
@@ -13,7 +13,7 @@
         dest: '{{ _hive_dest }}'
         remote_src: yes
 
-  when: _hive_repo_url is defined
+  when: _hive_repo_url is defined and _hive_repo_url_i is defined
 
 - name: install connector
   yum:

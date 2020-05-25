@@ -2,7 +2,7 @@
 # defaults file for java
 #
 
-_java_repo_url: 'http://192.168.110.100/software/jdk/jdk-8u211-linux-x64.tar.gz'
+_java_repo_url: 'http://{{ repoid }}/software/jdk/jdk-8u211-linux-x64.tar.gz'
 _java_repo_name: 'jdk-8u211-linux-x64.tar.gz'
   
 _java_local_src: jdk-8u211-linux-x64.tar.gz

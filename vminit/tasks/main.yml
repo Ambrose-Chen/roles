@@ -24,8 +24,9 @@
 
 - name: get centos repo
   get_url:
-    url: '{% if internet %}{{ _vminit_repo_url_i }}{% else %}{{ _vminit_repo_url }}{% endif %}'
-    dest: '/etc/yum.repos.d/{{ _vminit_repo_name }}.repo'
+    url: '{{ item.url }}'
+    dest: '/etc/yum.repos.d/{{ item.name }}.repo'
+  loop: '{% if internet %}{{ _vminit_repo_url_i }}{% else %}{{ _vminit_repo_url }}{% endif %}'
   when: _vminit_repo_url is defined and _vminit_repo_url_i is defined
 
 - name: update hostname at inventory hostname

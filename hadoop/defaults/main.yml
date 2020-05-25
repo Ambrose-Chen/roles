@@ -2,7 +2,7 @@
 # defaults file for hadoop
 
 _hadoop_version: '3.2.1'
-_hadoop_repo_url: 'http://192.168.110.100/software/hadoop/hadoop-{{ _hadoop_version }}.tar.gz'
+_hadoop_repo_url: 'http://{{ repoid }}/software/hadoop/hadoop-{{ _hadoop_version }}.tar.gz'
 _hadoop_repo_url_i: 'https://mirrors.aliyun.com/apache/hadoop/common/hadoop-{{ _hadoop_version }}/hadoop-{{ _hadoop_version }}.tar.gz'
 _hadoop_repo_name: 'hadoop-{{ _hadoop_version }}.tar.gz'
 _hadoop_dest: '/opt'

@@ -3,7 +3,7 @@
 
 
 _hive_version: '3.1.2'
-_hive_repo_url: 'http://192.168.110.100/software/hive/apache-hive-{{ _hive_version }}-bin.tar.gz'
+_hive_repo_url: 'http://{{ repoid }}/software/hive/apache-hive-{{ _hive_version }}-bin.tar.gz'
 _hive_repo_url_i: 'https://mirrors.aliyun.com/apache/hive/hive-{{ _hive_version }}/apache-hive-{{ _hive_version }}-bin.tar.gz'
 _hive_repo_name: 'apache-hive-{{ _hive_version }}-bin.tar.gz'
 _hive_dirname: 'apache-hive-{{ _hive_version }}-bin'
@@ -43,4 +43,4 @@ _hive_hive_site:
   - name: 'hive.metastore.uris'
     value: 'thrift://master:9083'
   - name: 'hbase.Zookeeper.quorum'
-    value: 'master, slave1, slave2, slave3, slave4'
+    value: 'master, slave1, slave2'

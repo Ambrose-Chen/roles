@@ -1,9 +1,14 @@
 ---
 # defaults file for vminit
 #
-_vminit_repo_url_i: 'http://mirrors.aliyun.com/repo/Centos-7.repo'
-_vminit_repo_url: 'http://192.168.110.100/centos/centos-7.repo'
-_vminit_repo_name: 'centos-7'
+_vminit_repo_url_i:
+  - url: 'http://mirrors.aliyun.com/repo/Centos-7.repo'
+    name: 'centos-7'
+  - url: 'http://mirrors.aliyun.com/repo/epel-7.repo'
+    name: 'epel-7'
+_vminit_repo_url:
+  - url: 'http://{{ repoid }}/centos/centos-7.repo'
+    name: 'centos-7'
 
 _vminit_upgrade: yes
 _vminit_packages:

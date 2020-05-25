@@ -1,8 +1,8 @@
 ---
 # defaults file for hbase
 
-_hbase_version: '2.2.3'
-_hbase_repo_url: 'http://192.168.110.100/software/hbase/hbase-{{ _hbase_version }}-bin.tar.gz'
+_hbase_version: '2.2.4'
+_hbase_repo_url: 'http://{{ repoid }}/software/hbase/hbase-{{ _hbase_version }}-bin.tar.gz'
 _hbase_repo_url_i: 'https://mirrors.aliyun.com/apache/hbase/{{ _hbase_version }}/hbase-{{ _hbase_version }}-bin.tar.gz'
 _hbase_repo_name: 'hbase-{{ _hbase_version }}-bin.tar.gz'
 _hbase_dest: '/opt'
@@ -24,7 +24,7 @@ _hbase_hbase_site:
   - name: 'hbase.Zookeeper.property.clientPort'
     value: '2181'
   - name: 'hbase.Zookeeper.quorum'
-    value: 'master, slave1, slave2, slave3, slave4'
+    value: 'master, slave1, slave2'
   - name: 'Zookeeper.session.timeout'
     value: '60000000'
   - name: 'dfs.support.append'

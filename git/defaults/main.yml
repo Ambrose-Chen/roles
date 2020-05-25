@@ -4,7 +4,7 @@
 _git_version: 'git-2.25.1'
 
 _git_repo_url_i: 'https://mirrors.edge.kernel.org/pub/software/scm/git/{{ _git_version }}.tar.gz'
-_git_repo_url: 'http://192.168.110.100/software/git/{{ _git_version }}.tar.gz'
+_git_repo_url: 'http://{{ repoid }}/software/git/{{ _git_version }}.tar.gz'
 _git_repo_name: '{{ _git_version }}.tar.gz'
 
 _git_local_src: '{{ _git_version }}.tar.gz'
