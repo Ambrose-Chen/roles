@@ -1,0 +1,5 @@
+[cdh]
+name=cdh
+baseurl=https://archive.cloudera.com/cdh6/6.3.2/redhat7/yum/
+enabled=1
+gpgcheck=0
