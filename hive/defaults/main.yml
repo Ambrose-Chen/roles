@@ -40,6 +40,8 @@ _hive_hive_site:
     value: 'master'
   - name: 'hive.metastore.local'
     value: 'false'
+  - name: 'hive.auto.convert.join'
+    value: 'false'
   - name: 'hive.metastore.uris'
     value: 'thrift://master:9083'
   - name: 'hbase.Zookeeper.quorum'
