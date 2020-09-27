@@ -14,11 +14,13 @@ _vminit_upgrade: yes
 _vminit_packages:
     - 'bash-completion'
     - 'gcc'
+    - 'lrzsz'
     - 'net-tools'
     - 'psmisc'
     - 'tree'
     - 'vim'
     - 'wget'
+    - 'unzip'
 # devel
     - 'libcurl-devel'
     - 'openssl-devel'

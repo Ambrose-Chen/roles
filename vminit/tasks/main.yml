@@ -13,6 +13,7 @@
     - '/etc/yum.repos.d/CentOS-Media.repo'
     - '/etc/yum.repos.d/CentOS-Sources.repo'
     - '/etc/yum.repos.d/CentOS-Vault.repo'
+    - '/etc/yum.repos.d/CentOS-x86_64-kernel.repo'
 
 - name: add centos repo
   copy:
@@ -62,6 +63,7 @@
         - '/etc/yum.repos.d/CentOS-Media.repo'
         - '/etc/yum.repos.d/CentOS-Sources.repo'
         - '/etc/yum.repos.d/CentOS-Vault.repo'
+        - '/etc/yum.repos.d/CentOS-x86_64-kernel.repo'
   when: _vminit_upgrade is defined and _vminit_upgrade |bool
 
 - name: install some packages you need

@@ -9,6 +9,7 @@ _hadoop_dest: '/opt'
 _hadoop_dirname: 'hadoop-{{ _hadoop_version }}'
 _hadoop_conf:
   - slaves
+  - workers
   - hadoop-env.sh
   - core-site.xml
   - hdfs-site.xml
@@ -34,23 +35,17 @@ _hadoop_core_site:
 
 _hadoop_hdfs_site:
   - name: 'dfs.replication'
-    value: '3'
+    value: '1'
   - name: 'dfs.permissions.enabled'
     value: 'false'
   - name: 'dfs.namenode.http-address'
     value: 'master:50070'
   - name: 'dfs.namenode.secondary.http-address'
-    value: 'slave1:50070'
+    value: 'slave1:50090'
 
 _hadoop_mapred_site:
   - name: 'mapreduce.framework.name'
     value: 'yarn'
-  - name: 'yarn.app.mapreduce.am.env'
-    value: 'HADOOP_MAPRED_HOME={{ _hadoop_dest }}/hadoop-{{ _hadoop_version }}/'
-  - name: 'mapreduce.map.env'
-    value: 'HADOOP_MAPRED_HOME={{ _hadoop_dest }}/hadoop-{{ _hadoop_version }}/'
-  - name: 'mapreduce.reduce.env'
-    value: 'HADOOP_MAPRED_HOME={{ _hadoop_dest }}/hadoop-{{ _hadoop_version }}/'
 
 _hadoop_yarn_site:
   - name: 'yarn.resourcemanager.hostname'
@@ -61,5 +56,3 @@ _hadoop_yarn_site:
     value: 'false'
   - name: 'yarn.nodemanager.aux-services'
     value: 'mapreduce_shuffle'
-  - name: 'yarn.nodemanager.aux-services.mapreduce_shuffle.class'
-    value: 'org.apache.hadoop.mapred.ShuffleHandler'

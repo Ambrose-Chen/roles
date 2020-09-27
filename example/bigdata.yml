@@ -3,28 +3,28 @@
     - internet: no
     - repoid: '192.168.95.136'
   roles:
-    - vminit
-    - clusterinit2
-    - java
+#    - vminit
+#    - clusterinit2
+#    - java
     - hadoop
-    - hbase
-    - zookeeper
+    #- hbase
+    #- zookeeper
 
-- hosts: master
-  vars:
-    - internet: no
-    - _mysql_password: "fdsafdsa"
-    - repoid: '192.168.95.136'
-  roles:
-    - mysql
-    - hive
-  tasks:
-    - shell: |
-        rm -rf /lib/gu*;
-        cp /share/hadoop/common/lib/gu* /lib/;
-        schematool -dbType mysql -initSchema;
-
-- hosts: master,slave1
-  tasks:
-    - shell: |
-        hdfs namenode -format
+#- hosts: master
+#  vars:
+#    - internet: no
+#    - _mysql_password: "fdsafdsa"
+#    - repoid: '192.168.95.136'
+#  roles:
+#    - mysql
+#    - hive
+#  tasks:
+#    - shell: |
+#        rm -rf /lib/gu*;
+#        cp /share/hadoop/common/lib/gu* /lib/;
+#        schematool -dbType mysql -initSchema;
+#
+#- hosts: master,slave1
+#  tasks:
+#    - shell: |
+#        hdfs namenode -format

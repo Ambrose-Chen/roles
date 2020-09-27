@@ -1,0 +1,53 @@
+---
+# tasks file for chronyd
+
+- name: install chrony
+  yum:
+    name: 'chrony'
+    state: 'latest'
+
+- name: server
+  replace:
+    path: '/etc/chrony.conf'
+    regexp: '(^server.*iburst)'
+    replace: '# \1'
+
+- name: add ntp server
+  lineinfile:
+    path: '/etc/chrony.conf'
+    line: ' server {{ item }} iburst'
+  loop: '{{ _chrony_server }}'
+  when: _chrony_server is defined
+
+- name: become an ntp server
+  block:
+    - lineinfile:
+        path: '/etc/chrony.conf'
+        regexp: '.*(local stratum.*)'
+        line: '\1'
+        backrefs: yes
+    - lineinfile:
+        path: '/etc/chrony.conf'
+        regexp: '.*(allow.*)'
+        line: 'allow  0.0.0.0/0'
+
+  when: _chrony_isserver is defined and _chrony_isserver|bool
+
+- name: become an ntp agent
+  block:
+    - lineinfile:
+        path: '/etc/chrony.conf'
+        regexp: '.*(local stratum.*)'
+        line: '# \1'
+        backrefs: yes
+    - lineinfile:
+        path: '/etc/chrony.conf'
+        regexp: '.*(allow.*)'
+        line: '# allow  0.0.0.0/0'
+
+  when: _chrony_isserver is not defined or not _chrony_isserver|bool
+
+- name: restart chronyd
+  systemd:
+    name: chronyd
+    state: restarted
